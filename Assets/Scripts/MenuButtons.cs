@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.SearchService;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
@@ -11,7 +12,7 @@ public class MenuButtons : MonoBehaviour
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _secretText;
 
-    [Header("Buttons")]
+    [Header("Menu Buttons")]
     [SerializeField] private Button _startBtn;
     [SerializeField] private Button _continueBtn;
     [SerializeField] private Button _optionsBtn;
@@ -19,22 +20,12 @@ public class MenuButtons : MonoBehaviour
     [Header("OptionMenu")]
     [SerializeField] private Image _optiontsMenu;
 
-
     private int _clickCounter;
 
     public void CreateNewGame()
     {
-        
-        
+
     }
-
-    public void OpenOptions()
-    {
-        _optiontsMenu.gameObject.SetActive(true);
-    }
-
-    public void ExitGame() => Application.Quit();
-
     public void SecretButton()
     {
         _clickCounter++;
@@ -57,5 +48,7 @@ public class MenuButtons : MonoBehaviour
             _secretText.text = "Please, get out of the game!";
         }
     }
-
+    public void OpenOptions() => _optiontsMenu.gameObject.SetActive(true);
+    public void CloseOptions() => _optiontsMenu.gameObject.SetActive(false);
+    public void ExitGame() => Application.Quit();
 }
