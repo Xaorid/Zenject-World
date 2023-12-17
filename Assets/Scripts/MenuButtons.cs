@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _titleText; 
+    [Header("Texts")]
+    [SerializeField] private TMP_Text _titleText;
+    [SerializeField] private TMP_Text _secretText;
 
+    [Header("Buttons")]
     [SerializeField] private Button _startBtn;
     [SerializeField] private Button _continueBtn;
     [SerializeField] private Button _optionsBtn;
 
+    [Header("OptionMenu")]
+    [SerializeField] private Image _optiontsMenu;
 
 
-    [SerializeField] private TMP_Text _secretText;
     private int _clickCounter;
 
     public void CreateNewGame()
@@ -26,7 +30,7 @@ public class MenuButtons : MonoBehaviour
 
     public void OpenOptions()
     {
-
+        _optiontsMenu.gameObject.SetActive(true);
     }
 
     public void ExitGame() => Application.Quit();
