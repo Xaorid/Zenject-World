@@ -14,10 +14,8 @@ public class MenuAnim : MonoBehaviour
 
     private void Start()
     {
-        TitleAnim();
         ShakeAnim();
     }
-
     private void ShakeAnim()
     {
         foreach (var gameObj in _gameObjects)
@@ -26,15 +24,5 @@ public class MenuAnim : MonoBehaviour
             sequence.Append(gameObj.transform.DOShakePosition(1500f, 3, 1)
                     .SetLoops(-1));
         }
-    }
-
-    private void TitleAnim()
-    {
-        Vector3 startScale = transform.localScale;
-
-        Sequence mySequence = DOTween.Sequence();
-        mySequence.Append(_titleText.transform.DOScale(transform.localScale * 1.2f, 2f))
-                  .Append(_titleText.transform.DOScale(startScale, 2f))
-                  .SetLoops(-1);
     }
 }

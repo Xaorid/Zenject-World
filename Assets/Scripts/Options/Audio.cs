@@ -35,12 +35,10 @@ public class Audio : MonoBehaviour
     {
         if (_musicVolume > 0)
         {
-
             _musicVolume -= 10;
             _musicSource.volume = _musicVolume / 100;
             _musicVolumeText.text = _musicVolume.ToString() + "%";
             PlayClickSound();
-
         }
     }
     public void SoundVolumeUp()
