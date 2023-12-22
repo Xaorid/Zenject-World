@@ -1,10 +1,4 @@
-using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
@@ -21,7 +15,6 @@ public class MenuButtons : MonoBehaviour
     {
         SecretButton.SecretOn.AddListener(MenuOff);
     }
-
     public void CreateNewGame()
     {
 
