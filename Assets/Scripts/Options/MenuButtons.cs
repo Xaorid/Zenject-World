@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuButtons : MonoBehaviour
@@ -17,7 +18,7 @@ public class MenuButtons : MonoBehaviour
     }
     public void CreateNewGame()
     {
-
+        SceneManager.LoadSceneAsync(1);
     }
     public void OpenOptions() => _optiontsMenu.gameObject.SetActive(true);
     public void CloseOptions() => _optiontsMenu.gameObject.SetActive(false);

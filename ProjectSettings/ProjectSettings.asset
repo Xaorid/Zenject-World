@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: Zenject World
-  defaultCursor: {fileID: 2800000, guid: 9de3ba2b3d157824f8ed9e73a121b7f5, type: 3}
+  defaultCursor: {fileID: 2800000, guid: 91db79a8eb63fc74f89c2e5fa8c2fdd2, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

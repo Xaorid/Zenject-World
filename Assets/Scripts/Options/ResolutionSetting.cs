@@ -5,7 +5,6 @@ using UnityEngine;
 public class ResolutionSetting : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown _resolutionDrop;
-    [SerializeField] private TMP_Text _EXAMPLE;
 
     private List<string> options = new List<string>();
     private List<Resolution> uniqueResolutions = new List<Resolution>();

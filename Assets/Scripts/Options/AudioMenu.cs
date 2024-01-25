@@ -24,9 +24,8 @@ public class AudioMenu : MonoBehaviour
             _musicVolume += 10;
             _musicSource.volume = _musicVolume / 100;
             MusicVolumeChanged.Invoke((int)_musicVolume);
-
+            SaveMusicVolume();
             PlayClickSound();
-
         }
 
     }
@@ -37,6 +36,7 @@ public class AudioMenu : MonoBehaviour
             _musicVolume -= 10;
             _musicSource.volume = _musicVolume / 100;
             MusicVolumeChanged.Invoke((int)_musicVolume);
+            SaveMusicVolume();
             PlayClickSound();
         }
     }
@@ -47,6 +47,7 @@ public class AudioMenu : MonoBehaviour
             _soundVolume += 10;
             _soundSource.volume = _soundVolume / 100;
             SoundVolumeChanged.Invoke( (int)_soundVolume);
+            SaveSoundVolume();
             PlayClickSound();
 
         }
@@ -58,9 +59,12 @@ public class AudioMenu : MonoBehaviour
             _soundVolume -= 10;
             _soundSource.volume = _soundVolume / 100;
             SoundVolumeChanged.Invoke((int)_soundVolume);
+            SaveSoundVolume();
             PlayClickSound();
         }
     }   
     public void PlayClickSound() => _soundSource.PlayOneShot(_clickSound);
-    
+
+    private void SaveMusicVolume() => PlayerPrefs.SetFloat("Music", _musicVolume);
+    private void SaveSoundVolume() => PlayerPrefs.SetFloat("Sound", _soundVolume);
 }

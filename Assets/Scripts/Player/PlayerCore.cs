@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerCore : MonoBehaviour
@@ -6,6 +7,6 @@ public class PlayerCore : MonoBehaviour
 
     private void Awake()
     {
-        _controls = new InputController();
+        _controls = new InputController();                    
     }
 }

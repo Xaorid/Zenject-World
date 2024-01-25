@@ -3,13 +3,12 @@ using UnityEngine;
 public class PlayerAnimController : PlayerCore
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private PlayerCore _player;
+    private Vector3 _scale;
 
     private static readonly int IsRunning = Animator.StringToHash("IsRunning");
     private static readonly int AttackX = Animator.StringToHash("AttackX");
-
-    private bool _isMovingLeft;
-    private bool _wasMirrored;
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
 
     private void Start()
     {
@@ -19,6 +18,11 @@ public class PlayerAnimController : PlayerCore
     private void Update()
     {
         RunAnim();
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            DeathAnim();
+        }
     }
 
     private void AttackAnim()
@@ -36,17 +40,26 @@ public class PlayerAnimController : PlayerCore
     {
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
-            _isMovingLeft = true;
+            if (_player.transform.localScale.x > 0)
+            {
+                _scale = _player.transform.localScale;
+                _scale.x *= -1;
+                _player.transform.localScale = _scale;
+            }
         }
         else if (Input.GetAxisRaw("Horizontal") > 0)
         {
-            _isMovingLeft = false;
+            if (_player.transform.localScale.x < 0)
+            {
+                _scale = _player.transform.localScale;
+                _scale.x *= -1;
+                _player.transform.localScale = _scale;
+            }
         }
+    }
 
-        if (_isMovingLeft != _wasMirrored)
-        {
-            _spriteRenderer.flipX = _isMovingLeft;
-            _wasMirrored = _isMovingLeft;
-        }
+    private void DeathAnim()
+    {
+        _animator.SetTrigger(IsDead);
     }
 }

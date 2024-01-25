@@ -53,6 +53,15 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""69548168-c026-402b-ae4c-208e511695e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -209,6 +218,28 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""action"": ""AttackX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""072b7a99-4d46-4966-8a6f-dec9bf02449b"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""332679e4-70c6-411e-9130-ee4d514eee28"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard + Mouse"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -248,6 +279,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_Main_MoveX = m_Main.FindAction("MoveX", throwIfNotFound: true);
         m_Main_MoveY = m_Main.FindAction("MoveY", throwIfNotFound: true);
         m_Main_AttackX = m_Main.FindAction("AttackX", throwIfNotFound: true);
+        m_Main_Run = m_Main.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +344,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private readonly InputAction m_Main_MoveX;
     private readonly InputAction m_Main_MoveY;
     private readonly InputAction m_Main_AttackX;
+    private readonly InputAction m_Main_Run;
     public struct MainActions
     {
         private @InputController m_Wrapper;
@@ -319,6 +352,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         public InputAction @MoveX => m_Wrapper.m_Main_MoveX;
         public InputAction @MoveY => m_Wrapper.m_Main_MoveY;
         public InputAction @AttackX => m_Wrapper.m_Main_AttackX;
+        public InputAction @Run => m_Wrapper.m_Main_Run;
         public InputActionMap Get() { return m_Wrapper.m_Main; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -337,6 +371,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @AttackX.started += instance.OnAttackX;
             @AttackX.performed += instance.OnAttackX;
             @AttackX.canceled += instance.OnAttackX;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
         }
 
         private void UnregisterCallbacks(IMainActions instance)
@@ -350,6 +387,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @AttackX.started -= instance.OnAttackX;
             @AttackX.performed -= instance.OnAttackX;
             @AttackX.canceled -= instance.OnAttackX;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
         }
 
         public void RemoveCallbacks(IMainActions instance)
@@ -390,5 +430,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         void OnMoveX(InputAction.CallbackContext context);
         void OnMoveY(InputAction.CallbackContext context);
         void OnAttackX(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
 }
