@@ -1,14 +1,22 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Zenject;
 
-public class PlayerAttack : PlayerCore
+public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRange;
     [SerializeField] private LayerMask _enemyLayers;
+    private InputController _controls;
 
     public static UnityEvent OnAttack = new UnityEvent();
+
+    [Inject]
+    private void Construct(InputController controls)
+    {
+        _controls = controls;
+    }
 
     private void Awake()
     {

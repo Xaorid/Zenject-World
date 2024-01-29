@@ -1,8 +1,7 @@
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats
 {
-    [SerializeField] private PlayerScriptableStats _playerStats;
     [SerializeField] private int _health; 
     [SerializeField] private int _damage;
     [SerializeField] private float _speed; 
@@ -20,21 +19,16 @@ public class PlayerStats : MonoBehaviour
     public int GetAgility => _agility;
     public int GetVitality => _vitality;
 
-    private void Start()
+    public PlayerStats(PlayerScriptableStats playerScriptableStats)
     {
-        PlayerStatsInstall();
-    }
-
-    private void PlayerStatsInstall()
-    {
-        _health = _playerStats.Health;
-        _damage = _playerStats.Damage;
-        _speed = _playerStats.Speed;
-        _speedMultiplier = _playerStats.SpeedMultiplier;
-        _energy = _playerStats.Energy;
-        _strength = _playerStats.Strength;
-        _vitality = _playerStats.Vitality;
-        _agility = _playerStats.Agility;
+        _health = playerScriptableStats.Health;
+        _damage = playerScriptableStats.Damage;
+        _speed = playerScriptableStats.Speed;
+        _speedMultiplier = playerScriptableStats.SpeedMultiplier;
+        _energy = playerScriptableStats.Energy;
+        _strength = playerScriptableStats.Strength;
+        _vitality = playerScriptableStats.Vitality;
+        _agility = playerScriptableStats.Agility;
     }
 
 }

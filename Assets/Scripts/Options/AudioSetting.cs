@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AudioMenu : MonoBehaviour
+public class AudioSetting : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private AudioSource _musicSource;
@@ -13,9 +13,8 @@ public class AudioMenu : MonoBehaviour
     private float _musicVolume = 100;
     private float _soundVolume = 100;
 
-    public static UnityEvent<int> MusicVolumeChanged = new UnityEvent<int>();
-    public static UnityEvent<int> SoundVolumeChanged = new UnityEvent<int>();
-
+    public static UnityEvent<float> MusicVolumeChanged = new UnityEvent<float>();
+    public static UnityEvent<float> SoundVolumeChanged = new UnityEvent<float>();
 
     public void MusicVolumeUp()
     {
@@ -23,48 +22,43 @@ public class AudioMenu : MonoBehaviour
         {
             _musicVolume += 10;
             _musicSource.volume = _musicVolume / 100;
-            MusicVolumeChanged.Invoke((int)_musicVolume);
-            SaveMusicVolume();
+            MusicVolumeChanged.Invoke(_musicVolume);
             PlayClickSound();
         }
 
     }
+
     public void MusicVolumeDown()
     {
         if (_musicVolume > 0)
         {
             _musicVolume -= 10;
             _musicSource.volume = _musicVolume / 100;
-            MusicVolumeChanged.Invoke((int)_musicVolume);
-            SaveMusicVolume();
+            MusicVolumeChanged.Invoke(_musicVolume);
             PlayClickSound();
         }
     }
+
     public void SoundVolumeUp()
     {
         if (_soundVolume < 100)
         {
             _soundVolume += 10;
             _soundSource.volume = _soundVolume / 100;
-            SoundVolumeChanged.Invoke( (int)_soundVolume);
-            SaveSoundVolume();
+            SoundVolumeChanged.Invoke( _soundVolume);
             PlayClickSound();
-
         }
     }
+
     public void SoundVolumeDown()
     {
         if (_soundVolume > 0)
         {
             _soundVolume -= 10;
             _soundSource.volume = _soundVolume / 100;
-            SoundVolumeChanged.Invoke((int)_soundVolume);
-            SaveSoundVolume();
+            SoundVolumeChanged.Invoke(_soundVolume);
             PlayClickSound();
         }
     }   
     public void PlayClickSound() => _soundSource.PlayOneShot(_clickSound);
-
-    private void SaveMusicVolume() => PlayerPrefs.SetFloat("Music", _musicVolume);
-    private void SaveSoundVolume() => PlayerPrefs.SetFloat("Sound", _soundVolume);
 }

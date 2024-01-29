@@ -1,16 +1,22 @@
+using System.Xml.Serialization;
+using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
-public class PlayerMovement : PlayerCore
+public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rb;
 
     private PlayerStats _playerStats;
+    private InputController _controls;
 
-    private void Awake()
+    [Inject]
+    private void Construct(PlayerStats playerStats, InputController controls)
     {
-       _controls = new InputController();
-       _playerStats = GetComponent<PlayerStats>();
+        _playerStats = playerStats;
+        _controls = controls;
+
     }
 
     private void FixedUpdate()

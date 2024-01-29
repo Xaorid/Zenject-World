@@ -1,56 +1,54 @@
+using System.Transactions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Gold : InteractableObject
+
+public class Wood : InteractableObject
 {
     [SerializeField] private TMP_Text _notificationText;
     [SerializeField] private string _itemText;
-    private int _goldCount;
-
+    
     private bool isPlayerInRange = false;
 
     public override TMP_Text NotificationText => _notificationText;
     public override string ItemText => _itemText;
     public override bool PlayerInRange => isPlayerInRange;
 
-    public static UnityEvent<int> OnPickUpGold = new();
+    public static UnityEvent OnPickUpWood = new();
 
     private void Start()
     {
-        SetGoldCount();
         HideNotification(NotificationText);
         SetNotification(ItemText);
     }
+
     private void Update()
     {
-        if(PlayerInRange && Input.GetKeyUp(KeyCode.E))
+        if (PlayerInRange && Input.GetKeyUp(KeyCode.E))
         {
             Interact();
         }
     }
+
     public override void Interact()
     {
-        Debug.Log($"{_itemText} +{_goldCount}");
-        OnPickUpGold.Invoke(_goldCount);
+        OnPickUpWood.Invoke();
+        Debug.Log("Wood +1");
         Destroy(gameObject);
     }
-    private void SetGoldCount()
-    {
-        _goldCount = Random.Range(1, 5);
-    }
+
     public override void SetNotification(string text)
     {
-        _notificationText.text = $"{_goldCount} " + text + "(E)";
+        _notificationText.text = text + "(E)";
     }
     public override void HideNotification(TMP_Text text)
     {
-        NotificationText.gameObject.SetActive(false);
+        _notificationText.gameObject.SetActive(false);
     }
     public override void ShowNotification(TMP_Text text)
     {
-        NotificationText.gameObject.SetActive(true);
-        
+        _notificationText.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -67,8 +65,7 @@ public class Gold : InteractableObject
         if (collision.gameObject.CompareTag("Player"))
         {
             HideNotification(NotificationText);
-            isPlayerInRange = false;           
+            isPlayerInRange = false;
         }
-
     }
 }

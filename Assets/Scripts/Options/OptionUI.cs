@@ -9,14 +9,14 @@ public class OptionUI : MonoBehaviour
 
     private void Start()
     {
-        AudioMenu.MusicVolumeChanged.AddListener(UpdateMusicVolume);
-        AudioMenu.SoundVolumeChanged.AddListener(UpdateSoundVolume);
+        AudioSetting.MusicVolumeChanged.AddListener(UpdateMusicVolume);
+        AudioSetting.SoundVolumeChanged.AddListener(UpdateSoundVolume);
     }
-    private void UpdateMusicVolume(int musicVolume)
+    private void UpdateMusicVolume(float musicVolume)
     {
         _musicVolumeText.text = musicVolume.ToString() + "%";
     }
-    private void UpdateSoundVolume(int soundVolume)
+    private void UpdateSoundVolume(float soundVolume)
     {
         _soundVolumeText.text = soundVolume.ToString() + "%";
     }

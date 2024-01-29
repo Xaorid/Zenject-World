@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerAnimController : PlayerCore
+public class PlayerAnimController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private PlayerCore _player;
+    [SerializeField] private GameObject _player;
     private Vector3 _scale;
 
     private static readonly int IsRunning = Animator.StringToHash("IsRunning");
