@@ -1,5 +1,4 @@
-using System.Xml.Serialization;
-using Unity.VisualScripting;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -16,27 +15,31 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerStats = playerStats;
         _controls = controls;
-
     }
 
     private void FixedUpdate()
-    {
-       Move();
-       Run();
+    { 
+        Move();
+        Run();
     }
 
     private void Move()
     {
-        var moveInput = new Vector2(_controls.Main.MoveX.ReadValue<float>(), _controls.Main.MoveY.ReadValue<float>());  
-        _rb.velocity = moveInput * (_playerStats.GetSpeed * Time.deltaTime);        
+        var moveInput = new Vector2(_controls.Player.MoveX.ReadValue<float>(), _controls.Player.MoveY.ReadValue<float>());  
+        _rb.velocity = moveInput * (_playerStats.Speed * Time.deltaTime);        
     }
 
     private void Run()
     {
-        if (_controls.Main.Run.ReadValue<float>() > 0)
+        if (_controls.Player.Run.ReadValue<float>() > 0)
         {
-            _rb.velocity = _rb.velocity * _playerStats.GetSpeedMultiplier;
+            _rb.velocity *= _playerStats.SpeedMultiplier;
         }
+    }
+
+    private void StopMove()
+    {
+        
     }
 
     private void OnEnable()

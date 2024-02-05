@@ -2,7 +2,7 @@
     "name": "InputController",
     "maps": [
         {
-            "name": "Main",
+            "name": "Player",
             "id": "a9a7a72e-29e6-448e-a0ed-d19a790d9601",
             "actions": [
                 {
@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AttackX",
-                    "type": "Button",
-                    "id": "3164a57a-4d73-4cae-ae8a-641d5e0dd265",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Run",
                     "type": "Button",
                     "id": "69548168-c026-402b-ae4c-208e511695e5",
@@ -40,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Value",
+                    "id": "8f056e53-7cb0-4826-b954-64dace6e9b87",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -177,28 +177,6 @@
                 },
                 {
                     "name": "",
-                    "id": "dff0694e-c6f9-42e3-ba13-799b21a47599",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "AttackX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "abe84a5d-34df-438d-93e6-b27ee35c557f",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard + Mouse",
-                    "action": "AttackX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "072b7a99-4d46-4966-8a6f-dec9bf02449b",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -218,6 +196,61 @@
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "8010dad9-113d-473a-9e9c-cd086b90d414",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "5c16328d-684a-4971-bde0-3c4d828c4e48",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard + Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "319aa1c6-c0e0-40ef-a1a4-ad78167e61af",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard + Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "907a0f96-e07e-45b2-84c2-184acc67ed58",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard + Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "83fcd0e7-9d33-49f6-b291-221504222c8e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard + Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

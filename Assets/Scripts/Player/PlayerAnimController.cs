@@ -1,15 +1,29 @@
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem.XR;
+using Zenject;
 
 public class PlayerAnimController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private GameObject _player;
+    [SerializeField] private Player _player;
     private Vector3 _scale;
 
-    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
-    private static readonly int AttackX = Animator.StringToHash("AttackX");
-    private static readonly int IsDead = Animator.StringToHash("IsDead");
+    private readonly int IsRunning = Animator.StringToHash("IsRunning");
+    private readonly int IsDead = Animator.StringToHash("IsDead");
 
+    private readonly int AttackX = Animator.StringToHash("AttackX");
+    private readonly int AttackUp = Animator.StringToHash("AttackUp");
+    private readonly int AttackDown = Animator.StringToHash("AttackDown");
+
+    private InputController _controls;
+
+    [Inject]
+    private void Construct(InputController controller)
+    {
+        _controls = controller;
+    }
+    
     private void Start()
     {
         PlayerAttack.OnAttack.AddListener(AttackAnim);
@@ -25,20 +39,37 @@ public class PlayerAnimController : MonoBehaviour
         }
     }
 
-    private void AttackAnim()
+    private void AttackAnim(Vector2 dirAttack)
     {
-        _animator.SetTrigger(AttackX);
+        if(dirAttack.x > 0 || dirAttack.x < 0)
+        {
+            UpdateMirrorState();
+            _animator.SetTrigger(AttackX);
+        }
+
+        if (dirAttack.y > 0)
+        {
+            _animator.SetTrigger(AttackUp);
+        }
+        else if(dirAttack.y < 0)
+        {
+            _animator.SetTrigger(AttackDown);
+        }
     }
 
     private void RunAnim()
     {
-        var isRunning = Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0 ? true : false;
+        var moveX = _controls.Player.MoveX.ReadValue<float>();
+        var moveY = _controls.Player.MoveY.ReadValue<float>();
+
+        var isRunning = moveY != 0 || moveX != 0;
+
         _animator.SetBool(IsRunning, isRunning);
         UpdateMirrorState();
     }
     private void UpdateMirrorState()
     {
-        if (Input.GetAxisRaw("Horizontal") < 0)
+        if (_controls.Player.MoveX.ReadValue<float>() < 0 || _controls.Player.Attack.ReadValue<Vector2>().x < 0)
         {
             if (_player.transform.localScale.x > 0)
             {
@@ -47,7 +78,7 @@ public class PlayerAnimController : MonoBehaviour
                 _player.transform.localScale = _scale;
             }
         }
-        else if (Input.GetAxisRaw("Horizontal") > 0)
+        else if (_controls.Player.MoveX.ReadValue<float>() > 0 || _controls.Player.Attack.ReadValue<Vector2>().x > 0)
         {
             if (_player.transform.localScale.x < 0)
             {

@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private TMP_Text _goldCountText;
-    [SerializeField] private TMP_Text _woodCountText;
-
     private int _goldCount;
     private int _woodCount;
 
@@ -21,12 +18,12 @@ public class Inventory : MonoBehaviour
     private void AddWood()
     {
         _woodCount++;
-        _woodCountText.text = "Wood: " + _woodCount.ToString(); 
+       //_woodCountText.text = "Wood: " + _woodCount.ToString(); 
     }
 
     private void AddMoney(int gold)
     {
         _goldCount += gold;
-        _goldCountText.text = "Gold: " + _goldCount.ToString();
+        //_goldCountText.text = "Gold: " + _goldCount.ToString();
     }
 }

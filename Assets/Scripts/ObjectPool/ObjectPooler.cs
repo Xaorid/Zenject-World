@@ -10,12 +10,13 @@ namespace Tools
     {
         public static ObjectPooler Instance;
         
-        [System.Serializable]
+        [Serializable]
         public class Pool
         {
             public string tag;
             public PoolableObject prefab;
             public int size;
+
             [HideInInspector]
             public GameObject poolParent;
         }

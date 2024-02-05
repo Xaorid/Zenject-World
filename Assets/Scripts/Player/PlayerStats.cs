@@ -2,33 +2,27 @@ using UnityEngine;
 
 public class PlayerStats
 {
-    [SerializeField] private int _health; 
-    [SerializeField] private int _damage;
-    [SerializeField] private float _speed; 
-    [SerializeField] private float _speedMultiplier;
-    [SerializeField] private float _energy; 
-    [SerializeField] private int _strength; 
-    [SerializeField] private int _agility;
-    [SerializeField] private int _vitality;
-    public int GetHealth => _health;
-    public int GetDamage => _damage;
-    public float GetSpeed => _speed;
-    public float GetSpeedMultiplier => _speedMultiplier;
-    public float GetEnergy => _energy;
-    public int GetStrength => _strength;
-    public int GetAgility => _agility;
-    public int GetVitality => _vitality;
+    public int Health { get; private set; }
+    public int Damage { get; private set; }
+    public float AttackCooldown { get; private set; }
+    public float Speed { get; private set; }
+    public float SpeedMultiplier { get; private set; }
+    public float Energy { get; private set; }
+    public int Strength { get; private set; }
+    public int Agility { get; private set; }
+    public int Vitality { get; private set; }
 
     public PlayerStats(PlayerScriptableStats playerScriptableStats)
     {
-        _health = playerScriptableStats.Health;
-        _damage = playerScriptableStats.Damage;
-        _speed = playerScriptableStats.Speed;
-        _speedMultiplier = playerScriptableStats.SpeedMultiplier;
-        _energy = playerScriptableStats.Energy;
-        _strength = playerScriptableStats.Strength;
-        _vitality = playerScriptableStats.Vitality;
-        _agility = playerScriptableStats.Agility;
+        Health = playerScriptableStats.Health;
+        Damage = playerScriptableStats.Damage;
+        AttackCooldown = playerScriptableStats.AttackCooldown;
+        Speed = playerScriptableStats.Speed;
+        SpeedMultiplier = playerScriptableStats.SpeedMultiplier;
+        Energy = playerScriptableStats.Energy;
+        Strength = playerScriptableStats.Strength;
+        Agility = playerScriptableStats.Agility;
+        Vitality = playerScriptableStats.Vitality;
     }
 
 }
