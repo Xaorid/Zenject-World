@@ -6,7 +6,7 @@ public class EnemyAnimController : MonoBehaviour
     private readonly int IsRunning = Animator.StringToHash("IsRunning");
 
     [SerializeField] private Animator _animator;
-    [SerializeField] private Enemy _enemy; 
+    [SerializeField] private EnemyMelee _enemy; 
 
     private Player _target;
     private Vector3 _scale;

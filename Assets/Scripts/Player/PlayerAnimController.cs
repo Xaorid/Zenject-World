@@ -17,6 +17,10 @@ public class PlayerAnimController : MonoBehaviour
     private readonly int AttackDown = Animator.StringToHash("AttackDown");
 
     private InputController _controls;
+    private bool isAttackAnim;
+
+    [HideInInspector]
+    public UnityEvent<bool> IsAttack = new(); 
 
     [Inject]
     private void Construct(InputController controller)
@@ -69,22 +73,25 @@ public class PlayerAnimController : MonoBehaviour
     }
     private void UpdateMirrorState()
     {
-        if (_controls.Player.MoveX.ReadValue<float>() < 0 || _controls.Player.Attack.ReadValue<Vector2>().x < 0)
+        if (!isAttackAnim)
         {
-            if (_player.transform.localScale.x > 0)
+            if (_controls.Player.MoveX.ReadValue<float>() < 0 || _controls.Player.Attack.ReadValue<Vector2>().x < 0)
             {
-                _scale = _player.transform.localScale;
-                _scale.x *= -1;
-                _player.transform.localScale = _scale;
+                if (_player.transform.localScale.x > 0)
+                {
+                    _scale = _player.transform.localScale;
+                    _scale.x *= -1;
+                    _player.transform.localScale = _scale;
+                }
             }
-        }
-        else if (_controls.Player.MoveX.ReadValue<float>() > 0 || _controls.Player.Attack.ReadValue<Vector2>().x > 0)
-        {
-            if (_player.transform.localScale.x < 0)
+            else if (_controls.Player.MoveX.ReadValue<float>() > 0 || _controls.Player.Attack.ReadValue<Vector2>().x > 0)
             {
-                _scale = _player.transform.localScale;
-                _scale.x *= -1;
-                _player.transform.localScale = _scale;
+                if (_player.transform.localScale.x < 0)
+                {
+                    _scale = _player.transform.localScale;
+                    _scale.x *= -1;
+                    _player.transform.localScale = _scale;
+                }
             }
         }
     }
@@ -92,5 +99,17 @@ public class PlayerAnimController : MonoBehaviour
     private void DeathAnim()
     {
         _animator.SetTrigger(IsDead);
+    }
+
+    private void StartAttackAnim()
+    {
+        isAttackAnim = true;
+        IsAttack.Invoke(isAttackAnim);
+    }
+
+    private void EndAttackAnim()
+    {
+        isAttackAnim = false;
+        IsAttack.Invoke(isAttackAnim);
     }
 }

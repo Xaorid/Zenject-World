@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &426411520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 426411522}
+  - component: {fileID: 426411521}
+  m_Layer: 0
+  m_Name: ParticleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &426411522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426411520}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2499615269433138541}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &426411521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426411520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede5ed71aa81d9746a52f84cb1277c4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particlePrefab: {fileID: 4324998770191169182, guid: d3015b7eea383f64d8b81f965cc466e7, type: 3}
+  _poolSize: 3
 --- !u!1 &2499615269433138448
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,7 +74,8 @@ Transform:
   m_LocalPosition: {x: -1.59, y: -1.76, z: 0.057784125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 426411522}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -44,7 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27a8b2eb0dc76e84d9318222dd670519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolSize: 1
-  _enemyPref: {fileID: 3136954713364322445, guid: 71432816c8f4b2b488ba46d2e5907808, type: 3}
+  _particles: {fileID: 426411521}
+  _difficultController: {fileID: 0}
+  _poolSize: 0
   _enemyStats: {fileID: 11400000, guid: e95f2a5daf819ac45814c964d9d978bf, type: 2}
-  _difficultMultiplier: 1
+  _enemyPref:
+  - {fileID: 3425827586784852081, guid: 71432816c8f4b2b488ba46d2e5907808, type: 3}

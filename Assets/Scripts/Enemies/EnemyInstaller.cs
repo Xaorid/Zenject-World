@@ -4,7 +4,7 @@ using Zenject;
 
 public class EnemyInstaller : MonoInstaller
 {
-    [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] private EnemyMelee _enemyPrefab;
 
     public override void InstallBindings()
     {
@@ -14,7 +14,7 @@ public class EnemyInstaller : MonoInstaller
     private void BindEnemy()
     {
         Container.Bind<Player>().AsSingle();
-        Container.Bind<Enemy>().FromInstance(_enemyPrefab).AsTransient();
+        Container.Bind<EnemyMelee>().FromInstance(_enemyPrefab).AsTransient();
 
     }
 }

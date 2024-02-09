@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemy;
+    [SerializeField] private EnemyMelee _enemy;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _curHealth;
 
     private void Start()
     {
-        _maxHealth = _enemy.Health;
+        _maxHealth = _enemy.MaxHealth;
         _curHealth = _maxHealth;
     }
 

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Tools;
 using UnityEngine;
 using Zenject;
 
@@ -9,59 +8,99 @@ public class EnemySpawner : MonoBehaviour
     [Inject]
     private DiContainer _container;
 
-    [SerializeField] private Queue<Enemy> enemies = new();
+    [Header("COMPONENTS")]
+    [SerializeField] private ParticlePool _particles;
+    [SerializeField] private DifficultController _difficultController;
+
+    [Header("POOL CONFIG")]
     [SerializeField] private int _poolSize;
 
-    [SerializeField] private Enemy _enemyPref;
+    [Header("ENEMY CONFIG")]
     [SerializeField] private EnemyStats _enemyStats;
+    [SerializeField] private Enemy[] _enemyPref;
 
-    [SerializeField] private float _difficultMultiplier = 1;
-
+    private Queue<Enemy> enemies = new();
     private GameObject _parentObj;
- 
+
     void Start()
     {
-        InitializePool();      
-        SpawnEnemyFromPool();
+        InitializePool();
+        StartCoroutine(TEST());
     }
 
     private void InitializePool()
-    {
+    {     
         _parentObj = new GameObject("Enemies");
 
         for (int i = 0; i < _poolSize; i++)
         {
-            var newEnemy = _container.InstantiatePrefabForComponent<Enemy>
-                (_enemyPref,transform.position,Quaternion.identity, _parentObj.transform);
-
+            var newEnemy = CreateNewEnemy();
             newEnemy.gameObject.SetActive(false);
             enemies.Enqueue(newEnemy);
         }
     }
 
+    [ContextMenu("SpawnEnemyFromPool")]
     public Enemy SpawnEnemyFromPool()
     {
         if(enemies.Count > 0)
         {
             var enemyFromPool = enemies.Dequeue();
-            SetNewEnemyStats(enemyFromPool);
+            SetNewStats(enemyFromPool);
             enemyFromPool.gameObject.SetActive(true);
+            _particles.SpawnParticleFromPool(enemyFromPool.transform.position);
             return enemyFromPool;
         }
         else
         {
-            var newEnemy = _container.InstantiatePrefabForComponent<Enemy>(_enemyPref, transform.position, Quaternion.identity, _parentObj.transform);
-            SetNewEnemyStats(newEnemy);
+            var newEnemy = CreateNewEnemy();
+            _particles.SpawnParticleFromPool(newEnemy.transform.position);
             return newEnemy;
         }
     }
 
-    private void SetNewEnemyStats(Enemy enemy)
+    private Enemy CreateNewEnemy()
     {
-        enemy.SetEnemyStats(
-                _enemyStats.GetSpeed * _difficultMultiplier,
-                (int)(_enemyStats.GetHealth * _difficultMultiplier),
-                (int)(_enemyStats.GetDamage * _difficultMultiplier),
-                1);
+        var enemy = _container.InstantiatePrefabForComponent<Enemy>
+                (_enemyPref[Random.Range(0,_enemyPref.Length - 1)],
+                RandomSpawnPos(),
+                Quaternion.identity,
+                _parentObj.transform,
+                new object[]
+                {
+                    _enemyStats.GetSpeed * _difficultController.Difficult,
+                    (int)(_enemyStats.GetHealth * _difficultController.Difficult),
+                    (int)(_enemyStats.GetDamage * _difficultController.Difficult)
+                });
+
+        return enemy;
+    }
+
+    private void SetNewStats(Enemy enemy)
+    {
+        enemy.SetNewEnemyStats(
+            _enemyStats.GetSpeed* _difficultController.Difficult,
+                    (int)(_enemyStats.GetHealth * _difficultController.Difficult),
+                    (int)(_enemyStats.GetDamage * _difficultController.Difficult)
+                );
+    }   
+
+
+    private Vector3 RandomSpawnPos()
+    {
+        float x = Random.Range(0.05f, 0.95f);
+        float y = Random.Range(0.05f, 0.95f);
+        Vector3 pos = new Vector3(x, y, 0);
+        pos = Camera.main.ViewportToWorldPoint(pos);
+        pos.z = 0;
+        return pos;
+    }
+    private IEnumerator TEST()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(1f);
+            SpawnEnemyFromPool();
+        }
     }
 }

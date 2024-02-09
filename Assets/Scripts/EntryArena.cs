@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExitToMenu : MonoBehaviour
+public class EntryArena : InteractableObject
 {
- 
-    public void ReturnToMainMenu()
+    protected override void Interact()
     {
-        SceneManager.LoadSceneAsync(0);
-
+        
     }
-
 }

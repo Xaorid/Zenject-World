@@ -6,10 +6,12 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private PlayerAnimController _playerAnimController;
 
     private PlayerStats _playerStats;
     private InputController _controls;
-
+    [SerializeField] private bool _canMove = true;
+    
     [Inject]
     private void Construct(PlayerStats playerStats, InputController controls)
     {
@@ -17,10 +19,18 @@ public class PlayerMovement : MonoBehaviour
         _controls = controls;
     }
 
+    private void Start()
+    {
+        _playerAnimController.IsAttack.AddListener(HandleMove);
+    }
+
     private void FixedUpdate()
-    { 
-        Move();
-        Run();
+    {
+        if (_canMove)
+        {
+            Move();
+            Run();
+        }
     }
 
     private void Move()
@@ -37,11 +47,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void StopMove()
-    {
-        
-    }
-
     private void OnEnable()
     {
         _controls.Enable();
@@ -49,5 +54,18 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         _controls.Disable();
+    }
+
+    private void HandleMove(bool isAttack)
+    {
+        if (isAttack)
+        {
+            _rb.velocity = Vector2.zero;
+            _canMove = false;
+        }
+        else
+        {
+            _canMove = true;
+        }
     }
 }

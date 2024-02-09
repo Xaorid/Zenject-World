@@ -11,9 +11,8 @@ GameObject:
   - component: {fileID: 3185509836985374244}
   - component: {fileID: 3185509836985374245}
   - component: {fileID: 3185509836985374250}
-  - component: {fileID: 3136954713364322445}
-  - component: {fileID: 795850829590207202}
   - component: {fileID: 9036077440080549543}
+  - component: {fileID: 3425827586784852081}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -74,31 +73,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &3136954713364322445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3185509836985374251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ae53e89aa8f3d44995bc26c0db20f25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 3185509836985374250}
---- !u!114 &795850829590207202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3185509836985374251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b6e125d6b63544d8fec44a5d692612, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9036077440080549543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,9 +85,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd52e71b2e49764788676abffcb912f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 3136954713364322445}
+  _enemy: {fileID: 3425827586784852081}
   _maxHealth: 0
   _curHealth: 0
+--- !u!114 &3425827586784852081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3185509836985374251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaf45912f42b64143bc22feb0e5c6837, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 3185509836985374250}
 --- !u!1 &3185509838052235271
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,4 +221,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 3185509838052235264}
-  _enemy: {fileID: 3136954713364322445}
+  _enemy: {fileID: 3425827586784852081}
