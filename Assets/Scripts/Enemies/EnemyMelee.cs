@@ -1,32 +1,34 @@
+using System.Collections;
 using UnityEngine;
 using Zenject;
 
 public class EnemyMelee : Enemy
 {
-    public override float Speed { get; protected set; }
-    public override int MaxHealth { get; protected set; }
-    public override int Damage { get; protected set; }
+    [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private float _attackCooldown = 1f;
+    private bool _isAttacking = false;
 
-    private Rigidbody2D _rb;
     private Player _target;
 
     [Inject]
-    private void Construct(Player target, float speed, int health, int damage)
+    private void Construct(Player target)
     {
         _target = target;
-        Speed = speed;
-        MaxHealth = health;
-        Damage = damage;
-    }
-
-    private void Start()
-    {
-        _rb = GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
         EnemyMovement();
+    }
+
+    private void Start()
+    {
+        PlayerHealth.PlayerIsDead.AddListener(ResetTarget);   
+    }
+
+    private void ResetTarget()
+    {
+        _target = null;
     }
 
     public override void EnemyMovement()
@@ -38,10 +40,24 @@ public class EnemyMelee : Enemy
         }
     }
 
-    public override void SetNewEnemyStats(float  speed, int health, int damage)
+    private IEnumerator DealDamageRoutine(Collision2D collision)
     {
-        Speed = speed;
-        MaxHealth = health;
-        Damage = damage;
-    } 
+        _isAttacking = true;
+        while (collision.gameObject.CompareTag("Player") && Vector2.Distance(transform.position, collision.transform.position) <= 1f)
+        {
+            OnDealDamage.Invoke(Damage);
+            yield return new WaitForSeconds(_attackCooldown);
+        }
+        _isAttacking = false;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && !_isAttacking)
+        {
+            StartCoroutine(DealDamageRoutine(collision));
+        }
+    }
+
+
 }

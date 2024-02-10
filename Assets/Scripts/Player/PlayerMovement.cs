@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private PlayerAnimController _playerAnimController;
+    [SerializeField] private PlayerHealth _playerHealth;
 
     private PlayerStats _playerStats;
     private InputController _controls;
@@ -22,11 +23,12 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _playerAnimController.IsAttack.AddListener(HandleMove);
+
     }
 
     private void FixedUpdate()
     {
-        if (_canMove)
+        if (_canMove && _playerHealth.IsAlive)
         {
             Move();
             Run();

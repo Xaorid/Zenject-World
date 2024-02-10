@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -11,26 +10,35 @@ public class EnemySpawner : MonoBehaviour
     [Header("COMPONENTS")]
     [SerializeField] private ParticlePool _particles;
     [SerializeField] private DifficultController _difficultController;
+    [SerializeField] private DropController _dropController;
+    [SerializeField] private WaveController _waveController;
 
     [Header("POOL CONFIG")]
     [SerializeField] private int _poolSize;
 
     [Header("ENEMY CONFIG")]
-    [SerializeField] private EnemyStats _enemyStats;
     [SerializeField] private Enemy[] _enemyPref;
 
     private Queue<Enemy> enemies = new();
-    private GameObject _parentObj;
+    private int healthForWave;
+    private int damageForWave;
 
-    void Start()
+    private GameObject _parentObj;
+    private Vector2 _leftBorderPos = new(8, 4.5f);
+    private Vector2 _rightBorderPos = new(-8, -8.5f);
+
+    void Awake()
+    {
+        _parentObj = new GameObject("Enemies");
+    }
+
+    private void Start()
     {
         InitializePool();
-        StartCoroutine(TEST());
     }
 
     private void InitializePool()
     {     
-        _parentObj = new GameObject("Enemies");
 
         for (int i = 0; i < _poolSize; i++)
         {
@@ -47,6 +55,8 @@ public class EnemySpawner : MonoBehaviour
         {
             var enemyFromPool = enemies.Dequeue();
             SetNewStats(enemyFromPool);
+            enemyFromPool.OnSpawnFromPool(this);
+            enemyFromPool.transform.position = RandomSpawnPos();
             enemyFromPool.gameObject.SetActive(true);
             _particles.SpawnParticleFromPool(enemyFromPool.transform.position);
             return enemyFromPool;
@@ -59,48 +69,42 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    public void ReturnToPool(Enemy enemy)
+    {
+        enemy.gameObject.SetActive(false);
+        enemies.Enqueue(enemy);
+    }
+
     private Enemy CreateNewEnemy()
     {
         var enemy = _container.InstantiatePrefabForComponent<Enemy>
                 (_enemyPref[Random.Range(0,_enemyPref.Length - 1)],
                 RandomSpawnPos(),
                 Quaternion.identity,
-                _parentObj.transform,
-                new object[]
-                {
-                    _enemyStats.GetSpeed * _difficultController.Difficult,
-                    (int)(_enemyStats.GetHealth * _difficultController.Difficult),
-                    (int)(_enemyStats.GetDamage * _difficultController.Difficult)
-                });
+                _parentObj.transform);
+        SetNewStats(enemy);
+        enemy.OnSpawnFromPool(this);
 
         return enemy;
     }
 
     private void SetNewStats(Enemy enemy)
     {
+        var enemyStats = enemy.EnemyStats;
+
         enemy.SetNewEnemyStats(
-            _enemyStats.GetSpeed* _difficultController.Difficult,
-                    (int)(_enemyStats.GetHealth * _difficultController.Difficult),
-                    (int)(_enemyStats.GetDamage * _difficultController.Difficult)
+            enemyStats.GetSpeed,
+                    (int)(enemyStats.GetHealth * _difficultController.Difficult + _waveController.CurWave * healthForWave),
+                    (int)(enemyStats.GetDamage * _difficultController.Difficult + _waveController.CurWave * damageForWave)
                 );
     }   
 
 
     private Vector3 RandomSpawnPos()
     {
-        float x = Random.Range(0.05f, 0.95f);
-        float y = Random.Range(0.05f, 0.95f);
-        Vector3 pos = new Vector3(x, y, 0);
-        pos = Camera.main.ViewportToWorldPoint(pos);
-        pos.z = 0;
+        var posX = Random.Range(_leftBorderPos.x, _rightBorderPos.x);
+        var posY = Random.Range(_leftBorderPos.y, _rightBorderPos.y);
+        var pos = new Vector3(posX, posY, 0);
         return pos;
-    }
-    private IEnumerator TEST()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1f);
-            SpawnEnemyFromPool();
-        }
     }
 }

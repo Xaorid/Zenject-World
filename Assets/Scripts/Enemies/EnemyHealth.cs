@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] private EnemyMelee _enemy;
-    [SerializeField] private int _maxHealth;
+    [SerializeField] private Enemy _enemy;
     [SerializeField] private int _curHealth;
 
-    private void Start()
+    public static UnityEvent<Vector3> EnemyOnDead = new();
+
+    private void ResetHealth()
     {
-        _maxHealth = _enemy.MaxHealth;
-        _curHealth = _maxHealth;
+        _curHealth = _enemy.MaxHealth;
     }
 
     public void TakeDamage(int damage)
@@ -19,7 +20,13 @@ public class EnemyHealth : MonoBehaviour
         _curHealth -= damage;
         if(_curHealth <= 0)
         {
-            Destroy(gameObject); //temporarily
+            EnemyOnDead.Invoke(transform.position);
+            _enemy.ReturnToPool();
         }
+    }
+
+    private void OnEnable()
+    {
+        ResetHealth();
     }
 }

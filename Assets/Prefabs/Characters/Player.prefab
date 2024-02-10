@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015124814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 9099256011495348796}
   - component: {fileID: 9099256011495348795}
   - component: {fileID: 1913144036}
+  - component: {fileID: 4408374382306970236}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -288,10 +289,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackPoint: {fileID: 1015124815}
-  _attackRange: 0.3
+  _attackRange: 0.5
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
+  _playerHealth: {fileID: 4408374382306970236}
   _damage: 0
   _attackCooldown: 0
   _canAttack: 1
@@ -309,6 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 9099256011495348794}
   _playerAnimController: {fileID: 9099256009716869831}
+  _playerHealth: {fileID: 4408374382306970236}
   _canMove: 1
 --- !u!114 &1913144036
 MonoBehaviour:
@@ -322,3 +325,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a40c5510ee97a14da5a7109b43df9bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4408374382306970236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099256011495348792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a3cc3d1a5a165e41af34445fd899fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _curHealth: 0
+  _maxHealth: 0

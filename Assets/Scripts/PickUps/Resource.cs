@@ -8,6 +8,10 @@ public abstract class Resource : MonoBehaviour
     [SerializeField] protected string _itemName;
     [SerializeField] protected int _itemCount;
 
+    public string GetItemName => _itemName;
+    public abstract float DropChance { get; }
+
+    protected DropController _dropController;
     private bool PlayerInRange;
 
     public static UnityEvent<string, int> ItemPicked = new ();
@@ -28,9 +32,10 @@ public abstract class Resource : MonoBehaviour
     private void PickUp()
     {
         ItemPicked.Invoke(_itemName, _itemCount);
+        ReturnToPool();    
     }
 
-    private void UpdateNotificationText()
+    public void UpdateNotificationText()
     {
         if(_itemCount > 1) 
         {
@@ -40,6 +45,16 @@ public abstract class Resource : MonoBehaviour
         {
             _notificationText.text = $"{_itemName}(E)";
         }
+    }
+
+    public virtual void OnSpawnFromPool(DropController pool)
+    {
+        _dropController = pool;
+    }
+
+    private void ReturnToPool()
+    {
+        _dropController.ReturnResourceToPool(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -31,16 +31,12 @@ public class PlayerAnimController : MonoBehaviour
     private void Start()
     {
         PlayerAttack.OnAttack.AddListener(AttackAnim);
+        PlayerHealth.PlayerIsDead.AddListener(DeathAnim);
     }
 
     private void Update()
     {
         RunAnim();
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            DeathAnim();
-        }
     }
 
     private void AttackAnim(Vector2 dirAttack)

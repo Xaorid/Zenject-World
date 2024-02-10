@@ -9,6 +9,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRange;
     [SerializeField] private LayerMask _enemyLayers;
+    [SerializeField] private PlayerHealth _playerHealth;
 
     [SerializeField] private int _damage;
     [SerializeField] private float _attackCooldown;
@@ -41,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void AttackPerformed(InputAction.CallbackContext context)
     {
-        if (_canAttack)
+        if (_canAttack && _playerHealth.IsAlive)
         {
             _canAttack = false;
             var dir = context.ReadValue<Vector2>();
