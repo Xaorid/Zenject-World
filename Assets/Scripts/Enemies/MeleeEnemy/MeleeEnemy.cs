@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using Zenject;
 
-public class EnemyMelee : Enemy
+public class MeleeEnemy : Enemy
 {
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float _attackCooldown = 1f;
@@ -14,11 +14,6 @@ public class EnemyMelee : Enemy
     private void Construct(Player target)
     {
         _target = target;
-    }
-
-    private void FixedUpdate()
-    {
-        EnemyMovement();
     }
 
     private void Start()

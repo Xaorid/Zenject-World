@@ -6,7 +6,9 @@ public class EnemyAnimController : MonoBehaviour
     private readonly int IsRunning = Animator.StringToHash("IsRunning");
 
     [SerializeField] private Animator _animator;
-    [SerializeField] private EnemyMelee _enemy; 
+    [SerializeField] private Enemy _enemy;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private EnemyHealth _enemyHealth;
 
     private Player _target;
     private Vector3 _scale;
@@ -16,6 +18,12 @@ public class EnemyAnimController : MonoBehaviour
     {
         _target = target;
     }
+
+    private void Start()
+    {
+        _enemyHealth.EnemyOnTakeDamage.AddListener(SetDamageAnim);
+    }
+
     private void Update()
     {
         RunAnim();
@@ -25,6 +33,11 @@ public class EnemyAnimController : MonoBehaviour
     private void RunAnim()
     {
         _animator.SetBool(IsRunning, true);
+    }
+
+    private void SetDamageAnim()
+    {
+        _spriteRenderer.SetDamageColor();
     }
 
     private void UpdateMirrorState()

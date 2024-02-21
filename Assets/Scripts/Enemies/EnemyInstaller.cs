@@ -1,20 +1,27 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class EnemyInstaller : MonoInstaller
 {
-    [SerializeField] private EnemyMelee _enemyPrefab;
+    [SerializeField] private DynamitePool DynamitePoolPrefab;
 
     public override void InstallBindings()
     {
-        BindEnemy();
+        BindDynamitePoolInstance();
     }
 
-    private void BindEnemy()
+    private void BindDynamitePoolInstance()
     {
-        Container.Bind<Player>().AsSingle();
-        Container.Bind<EnemyMelee>().FromInstance(_enemyPrefab).AsTransient();
+        DynamitePool dynamitePoolInstance = Container
+            .InstantiatePrefabForComponent<DynamitePool>(DynamitePoolPrefab, transform.position, Quaternion.identity, null);
 
+        Container
+            .Bind<DynamitePool>()
+            .FromInstance(dynamitePoolInstance)
+            .AsSingle();
     }
+
 }

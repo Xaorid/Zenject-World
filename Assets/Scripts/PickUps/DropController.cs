@@ -7,7 +7,7 @@ public class DropController : MonoBehaviour
     [SerializeField] private DifficultController _difficultController;
     [SerializeField] private WaveController _waveController;
 
-    private Dictionary<string, Queue<Resource>> _resourcePool = new Dictionary<string, Queue<Resource>>();
+    private Dictionary<string, Queue<Resource>> _resourcePool = new ();
 
     private float _spawnRadius = 0.5f;
     private GameObject _resourcesParent;

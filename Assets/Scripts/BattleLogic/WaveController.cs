@@ -9,7 +9,6 @@ public class WaveController : MonoBehaviour
     private float _spawnDelay = 1.5f;
 
     public int CurWave { get; private set; } = 1;
-    //private int _maxWave = 15;
     private float _waveDuration = 20f;
     private bool _waveIsRunning = true;
 

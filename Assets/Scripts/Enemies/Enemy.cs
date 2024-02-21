@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using Zenject;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -15,6 +12,11 @@ public abstract class Enemy : MonoBehaviour
     public EnemySpawner EnemyPool { get; private set;}
 
     public static UnityEvent<int> OnDealDamage = new();
+
+    private void FixedUpdate()
+    {
+        EnemyMovement();
+    }
 
     public abstract void EnemyMovement();
 

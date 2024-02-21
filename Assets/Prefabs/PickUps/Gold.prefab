@@ -290,3 +290,13 @@ MonoBehaviour:
   _notificationText: {fileID: 4026962905110141724}
   _itemName: Gold
   _itemCount: 1
+  _sprites:
+  - {fileID: -862621470, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: 76136889, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: 1551162649, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: -1932672362, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: -496803679, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: -140359872, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  - {fileID: 124873350, guid: 3bee1411099c3c84aaee6075442d2975, type: 3}
+  _spriteRenderer: {fileID: 9045150375693498511}
+  _spawnAnimSpeed: 0.05

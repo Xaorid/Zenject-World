@@ -290,3 +290,13 @@ MonoBehaviour:
   _notificationText: {fileID: 8878376950467827925}
   _itemName: Wood
   _itemCount: 1
+  _sprites:
+  - {fileID: 448016340, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: 301153296, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: -484362455, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: 2118960256, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: -959935724, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: 1776246879, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  - {fileID: 694517080, guid: 96deb25e30e7fd44db15c11d504ab3db, type: 3}
+  _spriteRenderer: {fileID: 8164918432477222601}
+  _spawnAnimSpeed: 0.05

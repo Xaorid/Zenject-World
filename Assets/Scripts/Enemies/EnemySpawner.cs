@@ -10,7 +10,6 @@ public class EnemySpawner : MonoBehaviour
     [Header("COMPONENTS")]
     [SerializeField] private ParticlePool _particles;
     [SerializeField] private DifficultController _difficultController;
-    [SerializeField] private DropController _dropController;
     [SerializeField] private WaveController _waveController;
 
     [Header("POOL CONFIG")]
@@ -20,8 +19,14 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Enemy[] _enemyPref;
 
     private Queue<Enemy> enemies = new();
+
+
+
     private int healthForWave;
     private int damageForWave;
+
+
+
 
     private GameObject _parentObj;
     private Vector2 _leftBorderPos = new(8, 4.5f);
@@ -39,7 +44,6 @@ public class EnemySpawner : MonoBehaviour
 
     private void InitializePool()
     {     
-
         for (int i = 0; i < _poolSize; i++)
         {
             var newEnemy = CreateNewEnemy();
@@ -48,14 +52,12 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    [ContextMenu("SpawnEnemyFromPool")]
     public Enemy SpawnEnemyFromPool()
     {
         if(enemies.Count > 0)
         {
             var enemyFromPool = enemies.Dequeue();
             SetNewStats(enemyFromPool);
-            enemyFromPool.OnSpawnFromPool(this);
             enemyFromPool.transform.position = RandomSpawnPos();
             enemyFromPool.gameObject.SetActive(true);
             _particles.SpawnParticleFromPool(enemyFromPool.transform.position);
@@ -78,7 +80,7 @@ public class EnemySpawner : MonoBehaviour
     private Enemy CreateNewEnemy()
     {
         var enemy = _container.InstantiatePrefabForComponent<Enemy>
-                (_enemyPref[Random.Range(0,_enemyPref.Length - 1)],
+                (_enemyPref[Random.Range(0, _enemyPref.Length)],
                 RandomSpawnPos(),
                 Quaternion.identity,
                 _parentObj.transform);
