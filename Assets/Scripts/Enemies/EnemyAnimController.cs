@@ -4,6 +4,7 @@ using Zenject;
 public class EnemyAnimController : MonoBehaviour
 {
     private readonly int IsRunning = Animator.StringToHash("IsRunning");
+    private readonly int IsAttack = Animator.StringToHash("IsAttack");
 
     [SerializeField] private Animator _animator;
     [SerializeField] private Enemy _enemy;
@@ -22,6 +23,8 @@ public class EnemyAnimController : MonoBehaviour
     private void Start()
     {
         _enemyHealth.EnemyOnTakeDamage.AddListener(SetDamageAnim);
+        _enemy.OnAttack.AddListener(AttackAnim);
+        
     }
 
     private void Update()
@@ -60,5 +63,10 @@ public class EnemyAnimController : MonoBehaviour
                 _enemy.transform.localScale = _scale;
             }
         }
+    }
+
+    private void AttackAnim()
+    {
+        _animator.SetTrigger(IsAttack);
     }
 }

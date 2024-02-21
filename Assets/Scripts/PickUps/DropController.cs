@@ -14,7 +14,7 @@ public class DropController : MonoBehaviour
 
     private void Start()
     {
-        EnemyHealth.EnemyOnDead.AddListener(GetMobDrop);
+        EnemyHealth.EnemyDead.AddListener(GetMobDrop);
         _resourcesParent = new GameObject("Resources");
         InitializePool();
     }
@@ -27,7 +27,7 @@ public class DropController : MonoBehaviour
         }
     }
 
-    public void GetMobDrop(Vector3 deathPosition)
+    public void GetMobDrop(EnemyDeathInfo enemyDeathInfo)
     {
         foreach (var resource in _resources)
         {
@@ -35,7 +35,7 @@ public class DropController : MonoBehaviour
             if (randomValue < resource.DropChance)
             {
                 Resource droppedResource = GetResourceFromPool(resource);
-                droppedResource.transform.position = deathPosition + Random.insideUnitSphere * _spawnRadius;
+                droppedResource.transform.position = enemyDeathInfo.Position + Random.insideUnitSphere * _spawnRadius;
                 droppedResource.gameObject.SetActive(true);
 
                 if (droppedResource is Gold goldResource)

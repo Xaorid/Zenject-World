@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1942983870623075700}
+  - component: {fileID: 9188013743711744110}
   m_Layer: 6
   m_Name: AttackRadius
   m_TagString: Untagged
@@ -31,6 +32,22 @@ Transform:
   m_Father: {fileID: 4570438696440160951}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &9188013743711744110
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469274404358175125}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 3
 --- !u!1 &4570438695983072504
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +180,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4570438696440160951}
-  - component: {fileID: 5040194568048685181}
   - component: {fileID: 4570438696440160938}
   - component: {fileID: 4570438696440160939}
   - component: {fileID: 4570438696440160936}
@@ -192,22 +208,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &5040194568048685181
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4570438696440160950}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 3
 --- !u!58 &4570438696440160938
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -274,6 +274,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyStats: {fileID: 11400000, guid: 9182dce08560d4c41aa06b93af772e5e, type: 2}
+  OnAttack:
+    m_PersistentCalls:
+      m_Calls: []
   _rb: {fileID: 4570438696440160939}
-  _attackCooldown: 1
+  _attackRadius: 3
+  _attackCooldown: 1.8
   _throwForce: 10

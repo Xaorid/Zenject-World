@@ -7,6 +7,7 @@ public class PlayerAnimController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
     [SerializeField] private Player _player;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     private Vector3 _scale;
 
     private readonly int IsRunning = Animator.StringToHash("IsRunning");
@@ -32,6 +33,7 @@ public class PlayerAnimController : MonoBehaviour
     {
         PlayerAttack.OnAttack.AddListener(AttackAnim);
         PlayerHealth.PlayerIsDead.AddListener(DeathAnim);
+        PlayerHealth.PlayerTakeDamage.AddListener(SetDamageAnim);
     }
 
     private void Update()
@@ -95,6 +97,11 @@ public class PlayerAnimController : MonoBehaviour
     private void DeathAnim()
     {
         _animator.SetTrigger(IsDead);
+    }
+
+    private void SetDamageAnim()
+    {
+        _spriteRenderer.SetDamageColor();
     }
 
     private void StartAttackAnim()

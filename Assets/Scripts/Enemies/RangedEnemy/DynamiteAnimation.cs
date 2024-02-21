@@ -1,25 +1,29 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DynamiteAnimation : MonoBehaviour
 {
-    [SerializeField] private Sprite[] _sprites;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Dynamite _dynamite;
     [SerializeField] private float _animSpeed;
+
+    private readonly int Explosion = Animator.StringToHash("Explosion");
+
+    [HideInInspector]
+    public UnityEvent EndExplosion = new();
 
     private void Start()
     {
-        StartCoroutine(DynamiteAnimRoutine());
+        _dynamite.OnExplosion.AddListener(SetExplosionAnim);
     }
 
-    private IEnumerator DynamiteAnimRoutine()
+    private void SetExplosionAnim()
     {
-        var index = 0;
-        while (true)
-        {
-            yield return new WaitForSeconds(_animSpeed);
-            _spriteRenderer.sprite = _sprites[index];
-            index = (index + 1) % _sprites.Length;
-        }
+        _animator.SetTrigger(Explosion);
+    }
+
+    private void EndExplosionAnim()
+    {
+        EndExplosion.Invoke();
     }
 }

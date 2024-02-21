@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +6,7 @@ public class WaveController : MonoBehaviour
 {
     [SerializeField] private EnemySpawner _enemySpawner;
     private float _spawnDelay = 1.5f;
+    private float _stepSpawnDelay = 0.05f;
 
     public int CurWave { get; private set; } = 1;
     private float _waveDuration = 20f;
@@ -43,6 +43,7 @@ public class WaveController : MonoBehaviour
         EndWave();
         yield return new WaitForSeconds(duration / 3f);
         IncreaseWaveDuration();
+        IncreaseSpawnRate();
         StartNewWave();
     }
 
@@ -62,5 +63,9 @@ public class WaveController : MonoBehaviour
     private void IncreaseWaveDuration()
     {
         _waveDuration += 5f;
+    }
+    private void IncreaseSpawnRate()
+    {
+        _spawnDelay -= _stepSpawnDelay;
     }
 }

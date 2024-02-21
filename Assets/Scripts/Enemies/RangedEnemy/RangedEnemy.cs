@@ -1,15 +1,16 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 public class RangedEnemy : Enemy
 {
     [SerializeField] private Rigidbody2D _rb;
+    [SerializeField] private float _attackRadius;
     [SerializeField] private float _attackCooldown = 1f;
     [SerializeField] private float _throwForce = 5f;
 
-    private bool isAttacking = false;
-    private bool _playerIsRange = false;
+    private bool _isAttacking = false;
 
     private Player _target;
     private DynamitePool _dynamitePool;
@@ -21,9 +22,31 @@ public class RangedEnemy : Enemy
         _dynamitePool = dynamitePool;
     }
 
+    private void Update()
+    {
+        CheckDistanceTarget();
+    }
+
+    private void CheckDistanceTarget()
+    {
+        if (_target != null)
+        {
+            float distanceToTarget = Vector2.Distance(transform.position, _target.transform.position);
+            if (distanceToTarget <= _attackRadius)
+            {
+                var dir = (_target.transform.position - transform.position).normalized;
+                if (!_isAttacking)
+                {
+                    Attack(dir, Damage);
+                    OnAttack.Invoke();
+                }
+            }
+        }
+    }
+
     public override void EnemyMovement()
     {
-        if (_target != null || isAttacking)
+        if (_target != null || _isAttacking)
         {
             var dir = (_target.transform.position - transform.position).normalized;
             _rb.velocity = dir * (Speed * Time.deltaTime);
@@ -32,13 +55,12 @@ public class RangedEnemy : Enemy
 
     private void Attack(Vector2 dir, int damage)
     { 
-        isAttacking = true;
+        _isAttacking = true;
         StartCoroutine(ThrowDynamite(dir, damage));  
     }
 
     private IEnumerator ThrowDynamite(Vector2 dir, int damage)
     {
-        yield return new WaitForSeconds(_attackCooldown);
 
         var dynamite = _dynamitePool.SpawnDynamiteFromPool();
         dynamite.SetDamage(damage);
@@ -46,24 +68,24 @@ public class RangedEnemy : Enemy
         var dynamiteRb = dynamite.GetComponent<Rigidbody2D>();
         dynamiteRb.AddForce(dir * _throwForce, ForceMode2D.Impulse);
 
-        isAttacking = false;
+        yield return new WaitForSeconds(_attackCooldown);
+
+        _isAttacking = false;
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void ResetParametres()
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            _playerIsRange = true;
-            var dir = (collision.transform.position - transform.position).normalized;
-            if (!isAttacking)
-            {
-                Attack(dir, Damage);    
-            }
-        }
+        _isAttacking = false;
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnEnable()
     {
-        _playerIsRange = false;
+        ResetParametres();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _attackRadius);
     }
 }

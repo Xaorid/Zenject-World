@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     [HideInInspector]
     public UnityEvent EnemyOnTakeDamage = new();
 
-    public static UnityEvent<Vector3> EnemyOnDead = new();
+    public static UnityEvent<EnemyDeathInfo> EnemyDead = new();
 
     public void TakeDamage(int damage)
     {
@@ -17,7 +17,12 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         _curHealth -= damage;
         if(_curHealth <= 0)
         {
-            EnemyOnDead.Invoke(transform.position);
+            var enemyDeadInfo = new EnemyDeathInfo(
+                    transform.position,
+                    _enemy.Exp
+                );
+
+            EnemyDead.Invoke(enemyDeadInfo);
             _enemy.ReturnToPool();
         }
     }

@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     private PlayerStats _playerStats;
 
     public static UnityEvent PlayerIsDead = new();
+    public static UnityEvent PlayerTakeDamage = new();
     public bool IsAlive { get; private set; } = true;
 
     [Inject]
@@ -30,6 +31,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (IsAlive)
         {
+            PlayerTakeDamage.Invoke();
             _curHealth -= damage;
             if (_curHealth <= 0)
             {

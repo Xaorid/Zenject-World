@@ -95,9 +95,10 @@ public class EnemySpawner : MonoBehaviour
         var enemyStats = enemy.EnemyStats;
 
         enemy.SetNewEnemyStats(
-            enemyStats.GetSpeed,
-                    (int)(enemyStats.GetHealth * _difficultController.Difficult + _waveController.CurWave * healthForWave),
-                    (int)(enemyStats.GetDamage * _difficultController.Difficult + _waveController.CurWave * damageForWave)
+                enemyStats.GetSpeed,
+                (int)(enemyStats.GetHealth * _difficultController.Difficult + _waveController.CurWave * healthForWave),
+                (int)(enemyStats.GetDamage * _difficultController.Difficult + _waveController.CurWave * damageForWave),
+                enemyStats.GetExp * _waveController.CurWave
                 );
     }   
 
