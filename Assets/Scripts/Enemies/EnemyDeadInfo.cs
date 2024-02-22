@@ -1,5 +1,5 @@
 using UnityEngine;
-public class EnemyDeathInfo
+public struct EnemyDeathInfo
 {
     public Vector3 Position { get; set; }
     public float Experience { get; set; }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 10
   Damage: 7
-  Speed: 100
+  Speed: 60
   Exp: 1

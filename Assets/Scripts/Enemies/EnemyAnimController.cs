@@ -23,8 +23,7 @@ public class EnemyAnimController : MonoBehaviour
     private void Start()
     {
         _enemyHealth.EnemyOnTakeDamage.AddListener(SetDamageAnim);
-        _enemy.OnAttack.AddListener(AttackAnim);
-        
+        _enemy.OnAttack.AddListener(AttackAnim);  
     }
 
     private void Update()

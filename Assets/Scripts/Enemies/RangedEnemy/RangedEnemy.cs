@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Zenject;
 
 public class RangedEnemy : Enemy
@@ -46,9 +45,14 @@ public class RangedEnemy : Enemy
 
     public override void EnemyMovement()
     {
-        if (_target != null || _isAttacking)
+        if (_target != null && !_isAttacking)
         {
             var dir = (_target.transform.position - transform.position).normalized;
+            _rb.velocity = dir * (Speed * Time.deltaTime);
+        }
+        else
+        {
+            var dir = -(_target.transform.position - transform.position).normalized;
             _rb.velocity = dir * (Speed * Time.deltaTime);
         }
     }
@@ -69,8 +73,7 @@ public class RangedEnemy : Enemy
         dynamiteRb.AddForce(dir * _throwForce, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(_attackCooldown);
-
-        _isAttacking = false;
+        ResetParametres();
     }
 
     private void ResetParametres()

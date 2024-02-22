@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem.XR;
 using Zenject;
 
 public class PlayerAnimController : MonoBehaviour

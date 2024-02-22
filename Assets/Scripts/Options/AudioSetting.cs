@@ -6,9 +6,7 @@ public class AudioSetting : MonoBehaviour
     [Header("Components")]
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _soundSource;
-
-    [Header("ClickSound")]
-    [SerializeField] private AudioClip _clickSound;
+    [SerializeField] private AudioCore _audioCore;
 
     private float _musicVolume = 100;
     private float _soundVolume = 100;
@@ -22,10 +20,10 @@ public class AudioSetting : MonoBehaviour
         {
             _musicVolume += 10;
             _musicSource.volume = _musicVolume / 100;
+            AudioSaver.SaveMusicVolume(_musicSource.volume);
             MusicVolumeChanged.Invoke(_musicVolume);
-            PlayClickSound();
+            _audioCore.PlayClickSound();
         }
-
     }
 
     public void MusicVolumeDown()
@@ -34,8 +32,9 @@ public class AudioSetting : MonoBehaviour
         {
             _musicVolume -= 10;
             _musicSource.volume = _musicVolume / 100;
+            AudioSaver.SaveMusicVolume(_musicSource.volume);
             MusicVolumeChanged.Invoke(_musicVolume);
-            PlayClickSound();
+            _audioCore.PlayClickSound();
         }
     }
 
@@ -45,8 +44,9 @@ public class AudioSetting : MonoBehaviour
         {
             _soundVolume += 10;
             _soundSource.volume = _soundVolume / 100;
+            AudioSaver.SaveSoundVolume(_soundSource.volume);
             SoundVolumeChanged.Invoke( _soundVolume);
-            PlayClickSound();
+            _audioCore.PlayClickSound();
         }
     }
 
@@ -56,9 +56,9 @@ public class AudioSetting : MonoBehaviour
         {
             _soundVolume -= 10;
             _soundSource.volume = _soundVolume / 100;
+            AudioSaver.SaveSoundVolume(_soundSource.volume);
             SoundVolumeChanged.Invoke(_soundVolume);
-            PlayClickSound();
+            _audioCore.PlayClickSound();
         }
     }   
-    public void PlayClickSound() => _soundSource.PlayOneShot(_clickSound);
 }

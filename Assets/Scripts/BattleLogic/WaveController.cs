@@ -10,6 +10,7 @@ public class WaveController : MonoBehaviour
 
     public int CurWave { get; private set; } = 1;
     private float _waveDuration = 20f;
+    private float _waveDurationIncrease = 5f;
     private bool _waveIsRunning = true;
 
     public static UnityEvent<int> OnNewWave = new();
@@ -62,7 +63,7 @@ public class WaveController : MonoBehaviour
 
     private void IncreaseWaveDuration()
     {
-        _waveDuration += 5f;
+        _waveDuration += _waveDurationIncrease;
     }
     private void IncreaseSpawnRate()
     {
