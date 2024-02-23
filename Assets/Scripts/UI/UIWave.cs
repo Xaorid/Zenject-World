@@ -10,6 +10,7 @@ public class UIWave : MonoBehaviour
     {
         WaveController.OnNewWave.AddListener(UpdateCurWaveText);
         WaveController.OnWaveTimeUpdated.AddListener(UpdateWaveTimerText);
+        WaveController.OnGetReadyWave.AddListener(UpdateGetReady);
     }
 
     private void UpdateCurWaveText(int curWave)
@@ -20,5 +21,10 @@ public class UIWave : MonoBehaviour
     private void UpdateWaveTimerText(float timeLeft)
     {
         _waveTimerText.text = timeLeft.ToString("0");
+    }
+
+    private void UpdateGetReady()
+    {
+        _curWaveText.text = "Get Ready!";
     }
 }

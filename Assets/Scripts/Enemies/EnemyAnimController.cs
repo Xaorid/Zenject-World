@@ -11,11 +11,11 @@ public class EnemyAnimController : MonoBehaviour
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private EnemyHealth _enemyHealth;
 
-    private Player _target;
+    private PlayerBrains _target;
     private Vector3 _scale;
 
     [Inject]
-    private void Construct(Player target)
+    private void Construct(PlayerBrains target)
     {
         _target = target;
     }

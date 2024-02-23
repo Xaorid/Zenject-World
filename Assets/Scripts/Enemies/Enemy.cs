@@ -22,7 +22,6 @@ public abstract class Enemy : MonoBehaviour
     }
 
     public abstract void EnemyMovement();
-
     public virtual void SetNewEnemyStats(float speed, int health, int damage, float exp)
     {
         Speed = speed;

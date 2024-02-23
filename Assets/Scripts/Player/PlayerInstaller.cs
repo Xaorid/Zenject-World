@@ -4,7 +4,7 @@ using Zenject;
 public class PlayerInstaller : MonoInstaller
 {
     [SerializeField] private PlayerScriptableStats PlayerStats;
-    [SerializeField] private Player PlayerPrefab;
+    [SerializeField] private PlayerBrains PlayerPrefab;
     [SerializeField] private Transform StartPos;
     public override void InstallBindings()
     {
@@ -15,11 +15,11 @@ public class PlayerInstaller : MonoInstaller
 
     private void BindPlayerInstance()
     {
-        Player playerInstance = Container
-            .InstantiatePrefabForComponent<Player>(PlayerPrefab, StartPos.position, Quaternion.identity, null);
+        PlayerBrains playerInstance = Container
+            .InstantiatePrefabForComponent<PlayerBrains>(PlayerPrefab, StartPos.position, Quaternion.identity, null);
 
         Container
-            .Bind<Player>()
+            .Bind<PlayerBrains>()
             .FromInstance(playerInstance)
             .AsSingle();
     } 

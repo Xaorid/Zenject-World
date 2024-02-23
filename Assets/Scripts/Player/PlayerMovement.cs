@@ -8,10 +8,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private PlayerAnimController _playerAnimController;
     [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private bool _canMove = true;
+    [SerializeField] private float _speedMovement;
+    private float _speedByAgility = 15;
 
     private PlayerStats _playerStats;
     private InputController _controls;
-    [SerializeField] private bool _canMove = true;
     
     [Inject]
     private void Construct(PlayerStats playerStats, InputController controls)
@@ -23,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         _playerAnimController.IsAttack.AddListener(HandleMove);
-
+        _speedMovement = _playerStats.Speed;
     }
 
     private void FixedUpdate()
@@ -31,32 +33,15 @@ public class PlayerMovement : MonoBehaviour
         if (_canMove && _playerHealth.IsAlive)
         {
             Move();
-            Run();
         }
     }
 
     private void Move()
     {
         var moveInput = new Vector2(_controls.Player.MoveX.ReadValue<float>(), _controls.Player.MoveY.ReadValue<float>());  
-        _rb.velocity = moveInput * (_playerStats.Speed * Time.deltaTime);        
+        _rb.velocity = moveInput * (_speedMovement * Time.deltaTime);        
     }
 
-    private void Run()
-    {
-        if (_controls.Player.Run.ReadValue<float>() > 0)
-        {
-            _rb.velocity *= _playerStats.SpeedMultiplier;
-        }
-    }
-
-    private void OnEnable()
-    {
-        _controls.Enable();
-    }
-    private void OnDisable()
-    {
-        _controls.Disable();
-    }
 
     private void HandleMove(bool isAttack)
     {
@@ -69,5 +54,25 @@ public class PlayerMovement : MonoBehaviour
         {
             _canMove = true;
         }
+    }
+
+    public void IncreaseSpeed(float additionalSpeed)
+    {
+        _speedMovement += additionalSpeed;
+    }
+
+    public void IncreaseSpeedFromAgility(int agility)
+    {
+        var bonusSpeed = agility * _speedByAgility;
+        IncreaseSpeed(bonusSpeed);
+    }
+
+    private void OnEnable()
+    {
+        _controls.Enable();
+    }
+    private void OnDisable()
+    {
+        _controls.Disable();
     }
 }

@@ -11,11 +11,11 @@ public class RangedEnemy : Enemy
 
     private bool _isAttacking = false;
 
-    private Player _target;
+    private PlayerBrains _target;
     private DynamitePool _dynamitePool;
 
     [Inject]
-    private void Construct(Player target, DynamitePool dynamitePool)
+    private void Construct(PlayerBrains target, DynamitePool dynamitePool)
     {
         _target = target;
         _dynamitePool = dynamitePool;

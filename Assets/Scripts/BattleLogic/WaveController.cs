@@ -7,18 +7,21 @@ public class WaveController : MonoBehaviour
     [SerializeField] private EnemySpawner _enemySpawner;
     private float _spawnDelay = 1.5f;
     private float _stepSpawnDelay = 0.05f;
+    private float _betweenWaveDelay = 5f;
 
-    public int CurWave { get; private set; } = 1;
+    public int CurWave { get; private set; }
     private float _waveDuration = 20f;
     private float _waveDurationIncrease = 5f;
     private bool _waveIsRunning = true;
 
     public static UnityEvent<int> OnNewWave = new();
     public static UnityEvent<float> OnWaveTimeUpdated = new();
+    public static UnityEvent WaveEnd = new();
+    public static UnityEvent OnGetReadyWave = new();
 
     private void Start()
     {
-        StartNewWave();   
+        StartCoroutine(DurationBetweenWaveRoutine(_betweenWaveDelay));
     }
 
     private IEnumerator SpawnRoutine(float delay)
@@ -42,20 +45,20 @@ public class WaveController : MonoBehaviour
             timeLeft--;
         }
         EndWave();
-        yield return new WaitForSeconds(duration / 3f);
         IncreaseWaveDuration();
         IncreaseSpawnRate();
-        StartNewWave();
     }
 
     private void EndWave()
     {
+        StopAllCoroutines();
         _waveIsRunning = false;
-        CurWave++;
+        WaveEnd.Invoke();
     }
 
-    public void StartNewWave()
+    private void StartNewWave()
     {
+        CurWave++;
         OnNewWave.Invoke(CurWave);
         _waveIsRunning = true;
         StartCoroutine(SpawnRoutine(_spawnDelay));
@@ -68,5 +71,24 @@ public class WaveController : MonoBehaviour
     private void IncreaseSpawnRate()
     {
         _spawnDelay -= _stepSpawnDelay;
+    }
+
+    public void NextWave()
+    {
+        StartCoroutine(DurationBetweenWaveRoutine(_betweenWaveDelay));
+    }
+
+    private IEnumerator DurationBetweenWaveRoutine(float duration)
+    {
+        OnGetReadyWave.Invoke();
+        float timeLeft = duration;
+        while (timeLeft >= 0)
+        {
+            OnWaveTimeUpdated.Invoke(timeLeft);
+            yield return new WaitForSeconds(1f);
+            timeLeft--;
+        }
+
+        StartNewWave();
     }
 }

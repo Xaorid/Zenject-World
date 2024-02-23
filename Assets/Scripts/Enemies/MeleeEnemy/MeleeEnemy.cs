@@ -8,17 +8,17 @@ public class MeleeEnemy : Enemy
     [SerializeField] private float _attackCooldown = 1f;
     private bool _isAttacking = false;
 
-    private Player _target;
+    private PlayerBrains _target;
 
     [Inject]
-    private void Construct(Player target)
+    private void Construct(PlayerBrains target)
     {
         _target = target;
     }
 
     private void Start()
     {
-        PlayerHealth.PlayerIsDead.AddListener(ResetTarget);   
+        PlayerHealth.PlayerIsDead.AddListener(ResetTarget);
     }
 
     private void ResetTarget()
@@ -38,7 +38,7 @@ public class MeleeEnemy : Enemy
     private IEnumerator DealDamageRoutine(Collision2D collision)
     {
         _isAttacking = true;
-        while (collision.gameObject.CompareTag("Player") && Vector2.Distance(transform.position, collision.transform.position) <= 1f)
+        while (Vector2.Distance(transform.position, collision.transform.position) <= 1f)
         {
             OnDealDamage.Invoke(Damage);
             yield return new WaitForSeconds(_attackCooldown);
@@ -53,6 +53,4 @@ public class MeleeEnemy : Enemy
             StartCoroutine(DealDamageRoutine(collision));
         }
     }
-
-
 }

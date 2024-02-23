@@ -14,6 +14,7 @@ public class DynamiteAnimation : MonoBehaviour
 
     private void Start()
     {
+        transform.localScale = Vector3.one;
         _dynamite.OnExplosion.AddListener(SetExplosionAnim);
     }
 

@@ -5,7 +5,7 @@ using Zenject;
 public class PlayerAnimController : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
-    [SerializeField] private Player _player;
+    [SerializeField] private PlayerBrains _player;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     private Vector3 _scale;
 

@@ -13,6 +13,8 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private int _damage;
     [SerializeField] private float _attackCooldown;
+    private int _damageFromStrength = 3;
+    private float _speedAtkFromAgility = 0.05f;
 
     public bool _canAttack = true;
 
@@ -68,6 +70,29 @@ public class PlayerAttack : MonoBehaviour
     {
         yield return new WaitForSeconds(cooldown);
         _canAttack = true;
+    }
+
+    private void IncreaseDamage(int additionalDamage)
+    {
+        _damage += additionalDamage;
+    }
+
+    public void IncreaseDamageFromStrength(int strength)
+    {
+        var bonusDamage = _damageFromStrength * strength;
+        IncreaseDamage(bonusDamage);
+    }
+
+    public void IncreaseAttackSpeedFromAgility(int agility)
+    {
+        if(_attackCooldown > 0.5f)
+        {
+            _attackCooldown -= agility * _speedAtkFromAgility;
+            if(_attackCooldown < 0.5f)
+            {
+                _attackCooldown = 0.5f;
+            }
+        }
     }
 
     private void OnEnable()

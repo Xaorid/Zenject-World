@@ -46,15 +46,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""69548168-c026-402b-ae4c-208e511695e5"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Attack"",
                     ""type"": ""Value"",
                     ""id"": ""8f056e53-7cb0-4826-b954-64dace6e9b87"",
@@ -198,28 +189,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""072b7a99-4d46-4966-8a6f-dec9bf02449b"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""332679e4-70c6-411e-9130-ee4d514eee28"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard + Mouse"",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""8010dad9-113d-473a-9e9c-cd086b90d414"",
                     ""path"": ""2DVector"",
@@ -311,7 +280,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
         m_Player_MoveY = m_Player.FindAction("MoveY", throwIfNotFound: true);
-        m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
     }
 
@@ -376,7 +344,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_MoveX;
     private readonly InputAction m_Player_MoveY;
-    private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Attack;
     public struct PlayerActions
     {
@@ -384,7 +351,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         public PlayerActions(@InputController wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveX => m_Wrapper.m_Player_MoveX;
         public InputAction @MoveY => m_Wrapper.m_Player_MoveY;
-        public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -401,9 +367,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @MoveY.started += instance.OnMoveY;
             @MoveY.performed += instance.OnMoveY;
             @MoveY.canceled += instance.OnMoveY;
-            @Run.started += instance.OnRun;
-            @Run.performed += instance.OnRun;
-            @Run.canceled += instance.OnRun;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
@@ -417,9 +380,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @MoveY.started -= instance.OnMoveY;
             @MoveY.performed -= instance.OnMoveY;
             @MoveY.canceled -= instance.OnMoveY;
-            @Run.started -= instance.OnRun;
-            @Run.performed -= instance.OnRun;
-            @Run.canceled -= instance.OnRun;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
@@ -462,7 +422,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     {
         void OnMoveX(InputAction.CallbackContext context);
         void OnMoveY(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
     }
 }

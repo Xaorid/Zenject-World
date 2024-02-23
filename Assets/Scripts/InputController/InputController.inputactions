@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Run",
-                    "type": "Button",
-                    "id": "69548168-c026-402b-ae4c-208e511695e5",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Attack",
                     "type": "Value",
                     "id": "8f056e53-7cb0-4826-b954-64dace6e9b87",
@@ -174,28 +165,6 @@
                     "action": "MoveY",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "072b7a99-4d46-4966-8a6f-dec9bf02449b",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "332679e4-70c6-411e-9130-ee4d514eee28",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard + Mouse",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "2D Vector",

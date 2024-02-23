@@ -18,16 +18,9 @@ public class EnemySpawner : MonoBehaviour
     [Header("ENEMY CONFIG")]
     [SerializeField] private Enemy[] _enemyPref;
 
+    [SerializeField] private List<Enemy> activeEnemies = new();
     private Queue<Enemy> enemies = new();
-
-
-
-    private int healthForWave;
-    private int damageForWave;
-
-
-
-
+    
     private GameObject _parentObj;
     private Vector2 _leftBorderPos = new(8, 4.5f);
     private Vector2 _rightBorderPos = new(-8, -8.5f);
@@ -39,6 +32,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        WaveController.WaveEnd.AddListener(ReturnAllEnemiesToPool);
         InitializePool();
     }
 
@@ -54,27 +48,37 @@ public class EnemySpawner : MonoBehaviour
 
     public Enemy SpawnEnemyFromPool()
     {
-        if(enemies.Count > 0)
+        Enemy enemy;
+
+        if (enemies.Count > 0)
         {
-            var enemyFromPool = enemies.Dequeue();
-            SetNewStats(enemyFromPool);
-            enemyFromPool.transform.position = RandomSpawnPos();
-            enemyFromPool.gameObject.SetActive(true);
-            _particles.SpawnParticleFromPool(enemyFromPool.transform.position);
-            return enemyFromPool;
+            enemy = enemies.Dequeue();
         }
+
         else
         {
-            var newEnemy = CreateNewEnemy();
-            _particles.SpawnParticleFromPool(newEnemy.transform.position);
-            return newEnemy;
+            enemy = CreateNewEnemy();
+            
         }
+
+        SetNewStats(enemy);
+        enemy.transform.position = RandomSpawnPos();
+        enemy.gameObject.SetActive(true);
+        _particles.SpawnParticleFromPool(enemy.transform.position);
+        activeEnemies.Add(enemy);
+        return enemy;
     }
 
     public void ReturnToPool(Enemy enemy)
     {
-        enemy.gameObject.SetActive(false);
-        enemies.Enqueue(enemy);
+        if (!enemies.Contains(enemy))
+        {
+            enemy.gameObject.SetActive(false);
+            activeEnemies.Remove(enemy);
+            enemy.transform.position = Vector3.zero;
+            enemy.StopAllCoroutines();
+            enemies.Enqueue(enemy);
+        }
     }
 
     private Enemy CreateNewEnemy()
@@ -96,12 +100,11 @@ public class EnemySpawner : MonoBehaviour
 
         enemy.SetNewEnemyStats(
                 enemyStats.GetSpeed,
-                (int)(enemyStats.GetHealth * _difficultController.Difficult + _waveController.CurWave * healthForWave),
-                (int)(enemyStats.GetDamage * _difficultController.Difficult + _waveController.CurWave * damageForWave),
+                (int)(enemyStats.GetHealth * _difficultController.Difficult + _waveController.CurWave),
+                (int)(enemyStats.GetDamage * _difficultController.Difficult),
                 enemyStats.GetExp * _waveController.CurWave
                 );
     }   
-
 
     private Vector3 RandomSpawnPos()
     {
@@ -109,5 +112,13 @@ public class EnemySpawner : MonoBehaviour
         var posY = Random.Range(_leftBorderPos.y, _rightBorderPos.y);
         var pos = new Vector3(posX, posY, 0);
         return pos;
+    }
+
+    private void ReturnAllEnemiesToPool()
+    {
+        while(activeEnemies.Count > 0)
+        {
+            ReturnToPool(activeEnemies[0]);
+        }
     }
 }

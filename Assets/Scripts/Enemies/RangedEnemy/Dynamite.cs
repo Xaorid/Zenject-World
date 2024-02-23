@@ -21,6 +21,7 @@ public class Dynamite : MonoBehaviour
 
     private void Start()
     {
+        WaveController.WaveEnd.AddListener(ReturnToPool);
         _anim.EndExplosion.AddListener(ReturnToPool);
     }
     public void SpawnFromPool(DynamitePool pool)
@@ -57,9 +58,11 @@ public class Dynamite : MonoBehaviour
     }
     private void ReturnToPool()
     {
+        StopAllCoroutines();
+        Transform child = transform.Find("Visual");
+        child.transform.localScale = Vector3.one;
         DynamitePool.ReturnToPool(this);
     }
-
 
     private void OnDrawGizmosSelected()
     {

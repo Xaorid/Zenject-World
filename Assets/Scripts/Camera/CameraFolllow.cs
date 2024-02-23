@@ -7,10 +7,10 @@ using Zenject;
 public class CameraFolllow : MonoBehaviour
 {
     private Camera _camera;
-    private Player _player;
+    private PlayerBrains _player;
 
     [Inject]
-    private void Construct(Player player)
+    private void Construct(PlayerBrains player)
     {
         _player = player;
     }
