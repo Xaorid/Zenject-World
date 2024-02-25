@@ -37,7 +37,6 @@ public class RangedEnemy : Enemy
                 if (!_isAttacking)
                 {
                     Attack(dir, Damage);
-                    OnAttack.Invoke();
                 }
             }
         }
@@ -59,13 +58,13 @@ public class RangedEnemy : Enemy
 
     private void Attack(Vector2 dir, int damage)
     { 
+        OnAttack.Invoke();
         _isAttacking = true;
         StartCoroutine(ThrowDynamite(dir, damage));  
     }
 
     private IEnumerator ThrowDynamite(Vector2 dir, int damage)
     {
-
         var dynamite = _dynamitePool.SpawnDynamiteFromPool();
         dynamite.SetDamage(damage);
         dynamite.transform.position = transform.position;

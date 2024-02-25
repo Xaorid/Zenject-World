@@ -18,7 +18,7 @@ public class MenuButtons : MonoBehaviour
     }
     public void CreateNewGame()
     {
-        SceneManager.LoadSceneAsync(1);
+        SceneManager.LoadSceneAsync("Arena");
     }
     public void OpenOptions() => _optiontsMenu.gameObject.SetActive(true);
     public void CloseOptions() => _optiontsMenu.gameObject.SetActive(false);

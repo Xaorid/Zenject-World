@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerStats: {fileID: 11400000, guid: b1f491cf8fdcd4b42b7c957d67513ac3, type: 2}
-  PlayerPrefab: {fileID: 1913144036, guid: d047568022ddb5f4aafe4e445adce349, type: 3}
+  PlayerPrefab: {fileID: 1776486591426639923, guid: d047568022ddb5f4aafe4e445adce349, type: 3}
   StartPos: {fileID: 197216507}
 --- !u!114 &138543088
 MonoBehaviour:

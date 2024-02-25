@@ -17,8 +17,9 @@ public class PlayerSkillPointUI : MonoBehaviour
     [Header("Componets")]
     [SerializeField] private GameObject _upgradeMenu;
 
-    public static UnityEvent OnRemoveSkillPoint = new();
+    public static UnityEvent<int> OnRemoveSkillPoint = new();
     public static UnityEvent<string> OnSkillUp = new();
+    public static UnityEvent HealPressed = new();
 
     private void Awake()
     {
@@ -27,16 +28,20 @@ public class PlayerSkillPointUI : MonoBehaviour
         PlayerBrains.OnParametersChanged += UpdateSkillText;
     }
 
-    private void UpdateSkillCountText(int skillPoints)
-    {
-        CheckAvailableSkillPoints(skillPoints);
-        _skillPointCountText.text = "SkillPoint: " + skillPoints.ToString();      
+    public void HealButtonPressed()
+    { 
+        HealPressed.Invoke();
     }
 
     public void SkillUpgradePressed(string parameter)
     {
-        OnRemoveSkillPoint.Invoke();
+        OnRemoveSkillPoint.Invoke(1);
         OnSkillUp.Invoke(parameter);
+    }
+    private void UpdateSkillCountText(int skillPoints)
+    {
+        CheckAvailableSkillPoints(skillPoints);
+        _skillPointCountText.text = "SkillPoint: " + skillPoints.ToString();      
     }
 
     private void CheckAvailableSkillPoints(int skillPointCount)
@@ -68,4 +73,5 @@ public class PlayerSkillPointUI : MonoBehaviour
     {
         _upgradeMenu.gameObject.SetActive(true);
     }
+
 }

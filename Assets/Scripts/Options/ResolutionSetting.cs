@@ -6,8 +6,8 @@ public class ResolutionSetting : MonoBehaviour
 {
     [SerializeField] private TMP_Dropdown _resolutionDrop;
 
-    private List<string> options = new List<string>();
-    private List<Resolution> uniqueResolutions = new List<Resolution>();
+    private List<string> options =new ();
+    private List<Resolution> uniqueResolutions = new ();
 
     private void Start()
     {

@@ -56,7 +56,7 @@ public class PlayerAttack : MonoBehaviour
 
             foreach (Collider2D hit in hitColliders)
             {
-                if (hit.TryGetComponent(out EnemyHealth enemy))
+                if (hit.TryGetComponent(out IDamageable enemy))
                 {
                     enemy.TakeDamage(_damage);
                 }

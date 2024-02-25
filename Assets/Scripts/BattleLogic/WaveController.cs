@@ -8,6 +8,7 @@ public class WaveController : MonoBehaviour
     private float _spawnDelay = 1.5f;
     private float _stepSpawnDelay = 0.05f;
     private float _betweenWaveDelay = 5f;
+    private bool _canSpawn = true;
 
     public int CurWave { get; private set; }
     private float _waveDuration = 20f;
@@ -21,6 +22,7 @@ public class WaveController : MonoBehaviour
 
     private void Start()
     {
+        PlayerHealth.PlayerIsDead.AddListener(ForcedWaveEnd);
         StartCoroutine(DurationBetweenWaveRoutine(_betweenWaveDelay));
     }
 
@@ -28,7 +30,7 @@ public class WaveController : MonoBehaviour
     {
         StartCoroutine(WaveTimerRoutine(_waveDuration));
 
-        while (_waveIsRunning)
+        while (_waveIsRunning && _canSpawn)
         {
             _enemySpawner.SpawnEnemyFromPool();
             yield return new WaitForSeconds(delay);
@@ -80,15 +82,24 @@ public class WaveController : MonoBehaviour
 
     private IEnumerator DurationBetweenWaveRoutine(float duration)
     {
-        OnGetReadyWave.Invoke();
-        float timeLeft = duration;
-        while (timeLeft >= 0)
+        if(_canSpawn)
         {
-            OnWaveTimeUpdated.Invoke(timeLeft);
-            yield return new WaitForSeconds(1f);
-            timeLeft--;
-        }
+            OnGetReadyWave.Invoke();
+            float timeLeft = duration;
+            while (timeLeft >= 0)
+            {
+                OnWaveTimeUpdated.Invoke(timeLeft);
+                yield return new WaitForSeconds(1f);
+                timeLeft--;
+            }
 
-        StartNewWave();
+            StartNewWave();
+        }  
+    }
+
+    private void ForcedWaveEnd()
+    {
+        _canSpawn = false;
+        WaveEnd.Invoke();
     }
 }

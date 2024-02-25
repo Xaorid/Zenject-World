@@ -22,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     private void Start()
-    {
+    {     
         Enemy.OnDealDamage.AddListener(TakeDamage);
         SetPlayerHealth();
         UpdateHealthOnUI.Invoke(_curHealth, _maxHealth);
@@ -60,6 +60,11 @@ public class PlayerHealth : MonoBehaviour
             _curHealth = _maxHealth;
         }
         UpdateHealthOnUI.Invoke(_curHealth, _maxHealth);
+    }
+
+    private void FullHeal()
+    {
+        _curHealth = _maxHealth;
     }
 
     private void IncreaseMaxHealth(int additionalHealth)

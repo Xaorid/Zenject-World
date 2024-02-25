@@ -3,13 +3,14 @@ using UnityEngine.Events;
 
 public class PlayerLevel : MonoBehaviour
 {
+    [SerializeField] private int _skillPointCount;
     [SerializeField] private int _level = 1;
     [SerializeField] private float _curExp = 0;
     [SerializeField] private float _requiredExp = 100;
-    [SerializeField] private int _skillPointCount;
-    private int _skillPointFromLevel = 2;
-
     private float _stepRequiredExp = 0.45f;
+
+    private int _skillPointFromLevel = 2;
+    private int _priceFullHeal = 3;
 
     public static UnityEvent<float> UpdateExpOnUI = new();
     public static UnityEvent<float, int> PlayerLevelUp = new();
@@ -50,9 +51,12 @@ public class PlayerLevel : MonoBehaviour
         }
     }
 
-    private void RemoveSkillPoint()
+    private void RemoveSkillPoint(int value)
     {
-        _skillPointCount--;
-        SkillPointOnUi?.Invoke(_skillPointCount);
+        if( _skillPointCount >= value ) 
+        { 
+            _skillPointCount -= value;
+            SkillPointOnUi?.Invoke(_skillPointCount);
+        }
     }
 }
