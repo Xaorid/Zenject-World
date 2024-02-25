@@ -3,25 +3,26 @@ using UnityEngine.Events;
 
 public class PlayerLevel : MonoBehaviour
 {
-    [SerializeField] private int _skillPointCount;
+    [SerializeField] public int _skillPointCount { get; private set; }
     [SerializeField] private int _level = 1;
     [SerializeField] private float _curExp = 0;
     [SerializeField] private float _requiredExp = 100;
     private float _stepRequiredExp = 0.45f;
 
     private int _skillPointFromLevel = 2;
-    private int _priceFullHeal = 3;
 
     public static UnityEvent<float> UpdateExpOnUI = new();
     public static UnityEvent<float, int> PlayerLevelUp = new();
-    public static UnityEvent<int> SkillPointOnUi = new();
+    public static UnityEvent<int> SkillPointOnUI = new();
+    public static UnityEvent<float, float, int> AllStatsOnUI = new();
 
     private void Start()
     {
         EnemyHealth.EnemyDead.AddListener(AddExp);
         PlayerSkillPointUI.OnRemoveSkillPoint.AddListener(RemoveSkillPoint);
         PlayerLevelUp.Invoke(_requiredExp, _level);
-        SkillPointOnUi.Invoke(_skillPointCount);
+        SkillPointOnUI.Invoke(_skillPointCount);
+        WaveController.WaveEnd.AddListener(UpdateLevelInfoStats);
     }
 
     private void IncreaseRequiredExp()
@@ -33,7 +34,7 @@ public class PlayerLevel : MonoBehaviour
     {
         _curExp = 0;
         _skillPointCount += _skillPointFromLevel;
-        SkillPointOnUi.Invoke(_skillPointCount);
+        SkillPointOnUI.Invoke(_skillPointCount);
         _level++;
         IncreaseRequiredExp();
         PlayerLevelUp.Invoke(_requiredExp, _level);
@@ -56,7 +57,12 @@ public class PlayerLevel : MonoBehaviour
         if( _skillPointCount >= value ) 
         { 
             _skillPointCount -= value;
-            SkillPointOnUi?.Invoke(_skillPointCount);
+            SkillPointOnUI?.Invoke(_skillPointCount);
         }
+    }
+
+    private void UpdateLevelInfoStats()
+    {
+        AllStatsOnUI.Invoke(_curExp, _requiredExp, _level);
     }
 }

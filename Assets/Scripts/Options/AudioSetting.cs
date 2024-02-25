@@ -8,11 +8,16 @@ public class AudioSetting : MonoBehaviour
     [SerializeField] private AudioSource _soundSource;
     [SerializeField] private AudioCore _audioCore;
 
-    private float _musicVolume = 100;
-    private float _soundVolume = 100;
+    private float _musicVolume;
+    private float _soundVolume;
 
     public static UnityEvent<float> MusicVolumeChanged = new UnityEvent<float>();
     public static UnityEvent<float> SoundVolumeChanged = new UnityEvent<float>();
+
+    private void Start()
+    {
+        UpdateMusicSoundValue();
+    }
 
     public void MusicVolumeUp()
     {
@@ -61,4 +66,16 @@ public class AudioSetting : MonoBehaviour
             _audioCore.PlayClickSound();
         }
     }   
+
+    private void UpdateMusicSoundValue()
+    {
+        _musicSource.volume = PlayerPrefs.GetFloat("Music");
+        _soundSource.volume = PlayerPrefs.GetFloat("Sound");
+
+        _musicVolume = _musicSource.volume * 100;
+        _soundVolume = _soundSource.volume * 100;
+
+        MusicVolumeChanged.Invoke(_musicVolume);
+        SoundVolumeChanged.Invoke(_soundVolume);
+    }    
 }

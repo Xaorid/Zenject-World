@@ -19,6 +19,7 @@ public class PlayerAttack : MonoBehaviour
     public bool _canAttack = true;
 
     public static UnityEvent<Vector2> OnAttack = new();
+    public static UnityEvent<int, float> DamageOnUI = new();
 
     private PlayerStats _playerStats;
     private InputController _controls;
@@ -75,6 +76,7 @@ public class PlayerAttack : MonoBehaviour
     private void IncreaseDamage(int additionalDamage)
     {
         _damage += additionalDamage;
+        DamageOnUI.Invoke(_damage, _attackCooldown);
     }
 
     public void IncreaseDamageFromStrength(int strength)
@@ -88,9 +90,13 @@ public class PlayerAttack : MonoBehaviour
         if(_attackCooldown > 0.5f)
         {
             _attackCooldown -= agility * _speedAtkFromAgility;
-            if(_attackCooldown < 0.5f)
+            DamageOnUI.Invoke(_damage, _attackCooldown);
+
+            if (_attackCooldown < 0.5f)
             {
                 _attackCooldown = 0.5f;
+                DamageOnUI.Invoke(_damage, _attackCooldown);
+
             }
         }
     }

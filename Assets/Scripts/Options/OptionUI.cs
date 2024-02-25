@@ -7,7 +7,7 @@ public class OptionUI : MonoBehaviour
     [SerializeField] private TMP_Text _soundVolumeText;
     [SerializeField] private TMP_Text _musicVolumeText;
 
-    private void Start()
+    private void Awake()
     {
         AudioSetting.MusicVolumeChanged.AddListener(UpdateMusicVolume);
         AudioSetting.SoundVolumeChanged.AddListener(UpdateSoundVolume);

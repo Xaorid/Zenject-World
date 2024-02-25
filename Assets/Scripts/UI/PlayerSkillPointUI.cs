@@ -13,6 +13,7 @@ public class PlayerSkillPointUI : MonoBehaviour
 
     [Header("Buttons")]
     [SerializeField] private Button[] _upgradeButtons;
+    [SerializeField] private Button _healButton;
 
     [Header("Componets")]
     [SerializeField] private GameObject _upgradeMenu;
@@ -23,7 +24,7 @@ public class PlayerSkillPointUI : MonoBehaviour
 
     private void Awake()
     {
-        PlayerLevel.SkillPointOnUi.AddListener(UpdateSkillCountText);
+        PlayerLevel.SkillPointOnUI.AddListener(UpdateSkillCountText);
         WaveController.WaveEnd.AddListener(OnUpgradeMenu);
         PlayerBrains.OnParametersChanged += UpdateSkillText;
     }
@@ -31,6 +32,7 @@ public class PlayerSkillPointUI : MonoBehaviour
     public void HealButtonPressed()
     { 
         HealPressed.Invoke();
+        OnRemoveSkillPoint.Invoke(2);
     }
 
     public void SkillUpgradePressed(string parameter)
@@ -55,11 +57,14 @@ public class PlayerSkillPointUI : MonoBehaviour
         }
         else
         {
+
             foreach (var button in _upgradeButtons)
             {                  
                 button.gameObject.SetActive(true);
             }
         }
+
+        _healButton.gameObject.SetActive(skillPointCount >= 2 ? true : false);
     }
 
     private void UpdateSkillText(PlayerBrains.Parameters parameters)
