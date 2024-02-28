@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerStats _playerStats;
     private InputController _controls;
+
+    public static UnityEvent<float> UpdateSpeedUI = new();
     
     [Inject]
     private void Construct(PlayerStats playerStats, InputController controls)
@@ -26,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerAnimController.IsAttack.AddListener(HandleMove);
         _speedMovement = _playerStats.Speed;
+        UpdateSpeedUI.Invoke(_speedMovement);
     }
 
     private void FixedUpdate()
@@ -59,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void IncreaseSpeed(float additionalSpeed)
     {
         _speedMovement += additionalSpeed;
+        UpdateSpeedUI.Invoke(_speedMovement);
     }
 
     public void IncreaseSpeedFromAgility(int agility)

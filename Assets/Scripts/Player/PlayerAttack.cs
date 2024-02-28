@@ -13,13 +13,16 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private int _damage;
     [SerializeField] private float _attackCooldown;
+    [SerializeField] private float _minAttackCooldown = 0.2f;
     private int _damageFromStrength = 3;
     private float _speedAtkFromAgility = 0.05f;
 
     public bool _canAttack = true;
 
     public static UnityEvent<Vector2> OnAttack = new();
+    public static UnityEvent OnAttackCooldown = new();
     public static UnityEvent<int, float> DamageOnUI = new();
+    public static UnityEvent<float> AttackCooldownForUI = new();
 
     private PlayerStats _playerStats;
     private InputController _controls;
@@ -41,6 +44,8 @@ public class PlayerAttack : MonoBehaviour
     {
         _damage = _playerStats.Damage;
         _attackCooldown = _playerStats.AttackCooldown;
+        AttackCooldownForUI?.Invoke(_attackCooldown);
+        DamageOnUI.Invoke(_damage, _attackCooldown);
     }
 
     private void AttackPerformed(InputAction.CallbackContext context)
@@ -63,11 +68,12 @@ public class PlayerAttack : MonoBehaviour
                 }
             }
 
-            StartCoroutine(AttackCooldown(_attackCooldown));
+            OnAttackCooldown.Invoke();
+            StartCoroutine(AttackCooldownRoutine(_attackCooldown));
         }
     }
 
-    private IEnumerator AttackCooldown(float cooldown)
+    private IEnumerator AttackCooldownRoutine(float cooldown)
     {
         yield return new WaitForSeconds(cooldown);
         _canAttack = true;
@@ -87,18 +93,20 @@ public class PlayerAttack : MonoBehaviour
 
     public void IncreaseAttackSpeedFromAgility(int agility)
     {
-        if(_attackCooldown > 0.5f)
+        if(_attackCooldown > _minAttackCooldown)
         {
             _attackCooldown -= agility * _speedAtkFromAgility;
             DamageOnUI.Invoke(_damage, _attackCooldown);
 
-            if (_attackCooldown < 0.5f)
+            if (_attackCooldown < _minAttackCooldown)
             {
                 _attackCooldown = 0.5f;
                 DamageOnUI.Invoke(_damage, _attackCooldown);
 
             }
         }
+
+        AttackCooldownForUI.Invoke(_attackCooldown);
     }
 
     private void OnEnable()

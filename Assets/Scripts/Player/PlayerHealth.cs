@@ -2,11 +2,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _curHealth;
     [SerializeField] private int _maxHealth;
-    private int _healthByVitality = 5;
+    private int _healthByVitality = 10;
     private PlayerStats _playerStats;
 
     public static UnityEvent PlayerIsDead = new();

@@ -11,7 +11,7 @@ public class WaveController : MonoBehaviour
     private bool _canSpawn = true;
 
     public int CurWave { get; private set; }
-    private float _waveDuration = 20f;
+    private float _waveDuration = 15f;
     private float _waveDurationIncrease = 5f;
     private bool _waveIsRunning = true;
 
@@ -62,8 +62,11 @@ public class WaveController : MonoBehaviour
     {
         CurWave++;
         OnNewWave.Invoke(CurWave);
-        _waveIsRunning = true;
-        StartCoroutine(SpawnRoutine(_spawnDelay));
+        _waveIsRunning = true;      
+        for(int i = CurWave / 5; i >= 0; i--)
+        {
+            StartCoroutine(SpawnRoutine(_spawnDelay));
+        }
     }
 
     private void IncreaseWaveDuration()

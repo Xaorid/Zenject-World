@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int _poolSize;
 
     [Header("ENEMY CONFIG")]
-    [SerializeField] private Enemy[] _enemyPref;
+    [SerializeField] private Enemy[] _enemyPrefabs;
 
     [SerializeField] private List<Enemy> activeEnemies = new();
     private Queue<Enemy> enemies = new();
@@ -84,7 +84,7 @@ public class EnemySpawner : MonoBehaviour
     private Enemy CreateNewEnemy()
     {
         var enemy = _container.InstantiatePrefabForComponent<Enemy>
-                (_enemyPref[Random.Range(0, _enemyPref.Length)],
+                (_enemyPrefabs[Random.Range(0, _enemyPrefabs.Length)],
                 RandomSpawnPos(),
                 Quaternion.identity,
                 _parentObj.transform);

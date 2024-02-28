@@ -57,7 +57,6 @@ public class PlayerSkillPointUI : MonoBehaviour
         }
         else
         {
-
             foreach (var button in _upgradeButtons)
             {                  
                 button.gameObject.SetActive(true);

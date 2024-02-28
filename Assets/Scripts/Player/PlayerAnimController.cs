@@ -42,6 +42,7 @@ public class PlayerAnimController : MonoBehaviour
 
     private void AttackAnim(Vector2 dirAttack)
     {
+        
         if(dirAttack.x > 0 || dirAttack.x < 0)
         {
             UpdateMirrorState();

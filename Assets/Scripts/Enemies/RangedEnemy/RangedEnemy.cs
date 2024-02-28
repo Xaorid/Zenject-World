@@ -9,7 +9,7 @@ public class RangedEnemy : Enemy
     [SerializeField] private float _attackCooldown = 1f;
     [SerializeField] private float _throwForce = 5f;
 
-    private bool _isAttacking = false;
+    private bool canAttack = true;
 
     private PlayerBrains _target;
     private DynamitePool _dynamitePool;
@@ -34,7 +34,7 @@ public class RangedEnemy : Enemy
             if (distanceToTarget <= _attackRadius)
             {
                 var dir = (_target.transform.position - transform.position).normalized;
-                if (!_isAttacking)
+                if (canAttack)
                 {
                     Attack(dir, Damage);
                 }
@@ -44,7 +44,7 @@ public class RangedEnemy : Enemy
 
     public override void EnemyMovement()
     {
-        if (_target != null && !_isAttacking)
+        if (_target != null && canAttack)
         {
             var dir = (_target.transform.position - transform.position).normalized;
             _rb.velocity = dir * (Speed * Time.deltaTime);
@@ -59,7 +59,7 @@ public class RangedEnemy : Enemy
     private void Attack(Vector2 dir, int damage)
     { 
         OnAttack.Invoke();
-        _isAttacking = true;
+        canAttack = false;
         StartCoroutine(ThrowDynamite(dir, damage));  
     }
 
@@ -77,7 +77,7 @@ public class RangedEnemy : Enemy
 
     private void ResetParametres()
     {
-        _isAttacking = false;
+        canAttack = true;
     }
 
     private void OnEnable()

@@ -6,7 +6,7 @@ public class MeleeEnemy : Enemy
 {
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float _attackCooldown = 1f;
-    private bool _isAttacking = false;
+    private bool canAttack = true;
 
     private PlayerBrains _target;
 
@@ -37,20 +37,26 @@ public class MeleeEnemy : Enemy
 
     private IEnumerator DealDamageRoutine(Collision2D collision)
     {
-        _isAttacking = true;
+        canAttack = false;
         while (Vector2.Distance(transform.position, collision.transform.position) <= 1f)
         {
             OnDealDamage.Invoke(Damage);
             yield return new WaitForSeconds(_attackCooldown);
         }
-        _isAttacking = false;
+        canAttack = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !_isAttacking)
+        if (collision.gameObject.CompareTag("Player") && canAttack)
         {
             StartCoroutine(DealDamageRoutine(collision));
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        StopCoroutine(DealDamageRoutine(collision));
+        canAttack = true;
     }
 }
