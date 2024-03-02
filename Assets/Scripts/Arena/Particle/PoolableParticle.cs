@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PoolableParticle : MonoBehaviour
+public class PoolableParticle : MonoBehaviour, IPoolable<ParticlePool>
 {
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private float _lifeTime;
@@ -19,7 +19,7 @@ public class PoolableParticle : MonoBehaviour
         StartCoroutine(LifetimeRoutine());
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         _particlePool.ReturnToPool(this);
     }

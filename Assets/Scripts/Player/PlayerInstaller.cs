@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem.XInput;
 using Zenject;
 
 public class PlayerInstaller : MonoInstaller
@@ -17,28 +19,26 @@ public class PlayerInstaller : MonoInstaller
     {
         PlayerBrains playerInstance = Container
             .InstantiatePrefabForComponent<PlayerBrains>(PlayerPrefab, StartPos.position, Quaternion.identity, null);
-
-        Container
-            .Bind<PlayerBrains>()
-            .FromInstance(playerInstance)
-            .AsSingle();
-    } 
+        BindAsSingle(playerInstance);
+    }
 
     private void BindPlayerStats()
     {
         var playerStats = new PlayerStats(PlayerStats);
-        Container
-            .Bind<PlayerStats>()
-            .FromInstance(playerStats)
-            .AsSingle();
+        BindAsSingle(playerStats);
     }
 
     private void BindInputController()
     {
         var inputController = new InputController();
+        BindAsSingle(inputController);   
+    }
+
+    private void BindAsSingle<T>(T instance)
+    {
         Container
-            .Bind<InputController>()
-            .FromInstance(inputController)
+        .Bind<T>()
+            .FromInstance(instance)
             .AsSingle();
     }
 }

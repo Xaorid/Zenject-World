@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IPoolable<EnemySpawner>
 {
     [SerializeField] protected EnemyStats _enemyStats;
     public EnemyStats EnemyStats { get { return _enemyStats; } }

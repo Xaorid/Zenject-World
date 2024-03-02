@@ -1,8 +1,7 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class Resource : InteractableObject
+public abstract class Resource : InteractableObject, IPoolable<DropController>
 {
     [SerializeField] protected string _itemName;
     [SerializeField] protected int _itemCount;
@@ -43,12 +42,12 @@ public abstract class Resource : InteractableObject
         }
     }
 
-    public virtual void OnSpawnFromPool(DropController pool)
+    public void OnSpawnFromPool(DropController pool)
     {
         _dropController = pool;
     }
 
-    private void ReturnToPool()
+    public void ReturnToPool()
     {
         _dropController.ReturnResourceToPool(this);
     }

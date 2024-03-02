@@ -11,7 +11,7 @@ public class SecretButton : MonoBehaviour
 
     private int _clickCounter;
 
-    public static UnityEvent SecretOn = new UnityEvent();
+    public UnityEvent SecretOn = new UnityEvent();
 
     private void Start()
     {

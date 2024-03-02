@@ -5,16 +5,15 @@ using UnityEngine.UI;
 public class MenuButtons : MonoBehaviour
 {
     [Header("Menu Buttons")]
-    [SerializeField] private Button _startBtn;
-    [SerializeField] private Button _continueBtn;
-    [SerializeField] private Button _optionsBtn;
+    [SerializeField] private GameObject _offButtons;
+    [SerializeField] private SecretButton _secretBtn;
 
     [Header("OptionMenu")]
     [SerializeField] private Image _optiontsMenu;
 
     private void Start()
     {
-        SecretButton.SecretOn.AddListener(MenuOff);
+        _secretBtn.SecretOn.AddListener(MenuOff);
     }
     public void CreateNewGame()
     {
@@ -22,11 +21,6 @@ public class MenuButtons : MonoBehaviour
     }
     public void OpenOptions() => _optiontsMenu.gameObject.SetActive(true);
     public void CloseOptions() => _optiontsMenu.gameObject.SetActive(false);
+    private void MenuOff() => _offButtons.gameObject.SetActive(false);
     public void ExitGame() => Application.Quit();
-    private void MenuOff()
-    {
-        _startBtn.gameObject.SetActive(false);
-        _continueBtn.gameObject.SetActive(false);
-        _optionsBtn.gameObject.SetActive(false);
-    }
 }
