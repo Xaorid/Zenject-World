@@ -15,10 +15,28 @@ public class AudioCore : MonoBehaviour
     [Header("SFX")]
     [SerializeField] private AudioClip _clickSFX;
 
+    private AudioCore instance;
+
     private void Start()
     {
+        Singleton();
+        SceneManager.sceneLoaded += OnSceneLoaded;
         _musicSource.volume = PlayerPrefs.GetFloat("Music");
         _soundSource.volume = PlayerPrefs.GetFloat("Sound");
+    }
+
+
+    private void Singleton()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance == this)
+        {
+            Destroy(this);
+        }
+        DontDestroyOnLoad(this);
     }
 
     void Update()
@@ -49,7 +67,9 @@ public class AudioCore : MonoBehaviour
                 break;  
         }
     }
-
+    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+        PlayMusic(scene.name);
+    }
     public void PlayClickSound() => _soundSource.PlayOneShot(_clickSFX);
-
 }

@@ -4113,6 +4113,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2016441632, guid: 3fdb793557575414da392d34f28c46e9, type: 3}
+      propertyPath: _arenaMusic.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016441632, guid: 3fdb793557575414da392d34f28c46e9, type: 3}
+      propertyPath: _arenaMusic.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e168321f9c91c6a42932790ec584ac08, type: 3}
     - target: {fileID: 7136650122226642042, guid: 3fdb793557575414da392d34f28c46e9, type: 3}
       propertyPath: m_RootOrder
       value: 3
